@@ -11,7 +11,7 @@ function obtain_initial_map_population()
     $.ajax( options)
     .done( function(result)
     {
-        //alert(JSON.stringify(result));
+        alert(JSON.stringify(result));
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
     });
 
