@@ -15,7 +15,7 @@ $( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function( event 
 //-----------------------------------------------apply filter
 $( "#apply_filter" ).click(function() 
 {
-
+	map.closePopup();
     var crop_id   = $("#crop_filter").val();
     obtain_specific_crop_map_population(crop_id);
 
