@@ -347,6 +347,9 @@ font-size:14px;
        border-radius:0px;
        border:none !important;
 }
+.helpBtnBg:hover{
+          background: #236b9b !important;
+}
 .searchPos{
 position:relative;
 right:-10px;
