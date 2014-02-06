@@ -84,8 +84,8 @@ function build_table_with_data(data)
     var table   = "<div class='agmipTable'><table class='table table-striped table-hover noWrap'>" + top_row + table + "</table></div>";
     $("#current_data").html(table);
 
-    $("#clear_current_data").show();
-    $("#select_all_current_data").show();
+   $("#clear_current_data").show();
+   $("#select_all_current_data").show();
 
 
     //if the current_data_container is toggled, then un toggle it
@@ -115,9 +115,6 @@ function show_hide_saved_data_table()
         $("#saved_data").find("table").show();
 
         $(".saved_data_button").show();
-        
-        //$("#clear_saved_data").show();
-        //$("#download_data").show();
 
         //if the saved_data_container is toggled, then un toggle it
         //information on whether the saved_data_container is toggled is stored else where
@@ -136,9 +133,6 @@ function show_hide_saved_data_table()
     else
     {
         $("#saved_data").find("table").hide();
-
-        //$("#clear_saved_data").hide();
-        //$("#download_data").hide();
         $(".saved_data_button").hide();
 
         $('#saved_data_number').hide();
