@@ -7,7 +7,8 @@
   height:35px;
   width:120px;
   padding:7px;
-   text-decoration:none !important;
+  text-decoration:none !important;
+  cursor: pointer;
 }
 
 .homepage_btn:hover{
@@ -142,6 +143,7 @@ font-weight:normal;
 
 .loginBtn{
 padding-top:4px;
+cursor: pointer;
 }
 .logHt{
 min-height:55px;
@@ -250,6 +252,7 @@ cursor:pointer;
 color:#97a5a6 !important;
 font-family: FontAwesome;
 text-decoration:none !important;
+cursor: pointer;
 }
 a.collapseBtn.collapsed:before
 {
@@ -335,6 +338,7 @@ font-size:14px;
        font-size:16px;
        position:relative;
        top:-8px;
+	   cursor: pointer;
        
 
       }
@@ -375,6 +379,7 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+	   cursor: pointer;
       }
 .blueBtn:hover{
        color: #ffffff !important;
@@ -388,6 +393,7 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+	   cursor: pointer;
       }
 .redBtn{
        color: #ffffff !important;
@@ -396,6 +402,7 @@ border-radius:0px !important;
        height:35px;
        margin-top:7px !important;
        text-align:center;
+	   cursor: pointer;
       }
 .redBtn:hover{
        color: #ffffff !important;
@@ -419,6 +426,7 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+	   cursor: pointer;
       }
 .searchBtn:hover{
        color: #ffffff !important;
@@ -509,6 +517,7 @@ width:212px;
   }
 .greenBtn{
 padding-bottom:17px;
+cursor: pointer;
 }
 
 .soils{
