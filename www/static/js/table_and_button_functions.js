@@ -1,3 +1,8 @@
+
+//hides divs which hold table by default
+$("#current_data").hide();
+$("#saved_data").hide();
+
 //---------------------------------------------------------------------------------build table with database data
 function build_table_with_data(data)
 {
@@ -84,6 +89,9 @@ function build_table_with_data(data)
     var table   = "<div class='agmipTable'><table class='table table-striped table-hover noWrap'>" + top_row + table + "</table></div>";
     $("#current_data").html(table);
 
+	//shows current data
+	$("#current_data").show();
+	
    $("#clear_current_data").show();
    $("#select_all_current_data").show();
 
@@ -113,7 +121,9 @@ function show_hide_saved_data_table()
     if( saved_data.length > 0)
     {   
         $("#saved_data").find("table").show();
-
+		//shows saved data
+		$("#saved_data").show();
+		
         $(".saved_data_button").show();
 
         //if the saved_data_container is toggled, then un toggle it
@@ -133,6 +143,7 @@ function show_hide_saved_data_table()
     else
     {
         $("#saved_data").find("table").hide();
+		$("#saved_data").hide();
         $(".saved_data_button").hide();
 
         $('#saved_data_number').hide();

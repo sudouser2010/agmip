@@ -192,6 +192,7 @@ $( "#clear_current_data" ).click(function() {
     $("#select_all_current_data").css("display","none");
     $("#clear_current_data").css("display","none");
     $("#current_data_number").hide();
+	$("#current_data").hide();
 });
 //---actions when user clicks on the clear current data button
 
