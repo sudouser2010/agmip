@@ -1,15 +1,10 @@
 
-//hides divs which hold table by default
-$("#current_data").hide();
-$("#saved_data").hide();
-
 //---------------------------------------------------------------------------------build table with database data
 function build_table_with_data(data)
 {
     var table = "";
     var local_rows ="";
     var checked ='';
-    var length = '100';
     var local_crid;
     var local_pdate;
     var local_soil_texture;
@@ -33,17 +28,6 @@ function build_table_with_data(data)
         local_agmip_rating  = "unlisted";
         local_eid           = make_none_when_undefined(value["eid"]);
 
-
-        /*-------------------------truncate strings
-        local_crid          =local_crid.substring(0,length);
-        local_pdate         =local_pdate.substring(0,length);
-        local_soil_texture  =local_soil_texture.substring(0,length);
-        local_institution   =local_institution.substring(0,length);
-        local_country       =local_country.substring(0,length);
-        local_exname        =local_exname.substring(0,length);
-        local_agmip_rating  =local_agmip_rating.substring(0,length);
-        local_eid           =local_eid.substring(0,length);
-        -------------------------truncate strings*/
 
         //----------------------------------------------check control
         if(is_in_array( saved_data, local_eid))
@@ -120,7 +104,6 @@ function show_hide_saved_data_table()
 {
     if( saved_data.length > 0)
     {   
-        $("#saved_data").find("table").show();
 		//shows saved data
 		$("#saved_data").show();
 		
@@ -142,7 +125,6 @@ function show_hide_saved_data_table()
     }
     else
     {
-        $("#saved_data").find("table").hide();
 		$("#saved_data").hide();
         $(".saved_data_button").hide();
 
