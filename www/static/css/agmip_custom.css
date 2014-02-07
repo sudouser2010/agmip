@@ -72,6 +72,14 @@ color:#f1c40f !important;
 
 
 /* Upload page Styles*/
+.disabled
+{
+pointer-events: none;
+cursor: not-allowed;
+opacity: 0.65;
+box-shadow: none;
+}
+
 .numTxt{
 font-size:18px;
 float:right;
