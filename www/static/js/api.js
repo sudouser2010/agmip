@@ -13,7 +13,11 @@ function obtain_initial_map_population()
     {
         //alert(JSON.stringify(result));
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
-    });
+    }).fail(function()
+	{
+		$("#error_message").text("Error: Failed To Populate Map");
+		$('#alertModal').modal('show');
+	});
 
 
 }
@@ -33,7 +37,11 @@ function obtain_specific_crop_map_population(crop_type)
     .done( function(result)
     {
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
-    });
+    }).fail(function()
+	{
+		$("#error_message").text("Error: Search Operation Has Failed");
+		$('#alertModal').modal('show');
+	});
 
 }
 
@@ -44,8 +52,10 @@ function retrieve_data(crop_type, geohashes, eid_count)
     max_eids = 50;
     if( eid_count > max_eids)
     {
-        alert("Data Size Is Too Large. More Than Data Points "+max_eids+" Selected.");
-        alert("Please specify data by using filter or by zooming in.");       
+        //alert("Data Size Is Too Large. More Than Data Points "+max_eids+" Selected.");
+        //alert("Please specify data by using filter or by zooming in.");     
+		$("#error_message").html("Data Size Is Too Large. More Than Data Points "+max_eids+" Selected. <br>Please Specify Data By Using Filter Or By Zooming In.");
+		$('#alertModal').modal('show');		
     }
     else
     {
@@ -63,7 +73,11 @@ function retrieve_data(crop_type, geohashes, eid_count)
         .done( function(result)
         {
             $("#map").trigger("build_table_with_data", {'data': result });
-        });
+        }).fail(function()
+		{
+			$("#error_message").text("Error: Failed to Obtain Data");
+			$('#alertModal').modal('show');
+		});
     }
 
 
@@ -88,7 +102,13 @@ function retrieve_database(database_types, eids)
     .done( function(result)
     {
         $("#map").trigger("prompt_user_for_download", result );
-    });
+    }).fail(function()
+	{
+		$("#error_message").text("Error: Failed to Download Database");
+		
+		$('#DownloadModal').modal('hide');
+		$('#alertModal').modal('show');
+	});
 
 }
 
