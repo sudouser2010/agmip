@@ -15,18 +15,19 @@ function build_table_with_data(data)
     var local_eid;
     var index;
     var value;
+	var default_unknown = "N/A";
 
     for (var i=0; i < data.length; i++)
     {
         value               = data[i];
-        local_crid          = make_none_when_undefined(value["crid"]);
-        local_pdate         = make_none_when_undefined(value["pdate"]);
-        local_soil_texture  = "unlisted";
-        local_institution   = make_none_when_undefined(value["institution"]);
-        local_country       = "unlisted";
-        local_exname        = make_none_when_undefined(value["exname"]);
-        local_agmip_rating  = "unlisted";
-        local_eid           = make_none_when_undefined(value["eid"]);
+        local_crid          = make_default_when_undefined(value["crid"], default_unknown);
+        local_pdate         = make_default_when_undefined(value["pdate"], default_unknown);
+        local_soil_texture  = default_unknown;
+        local_institution   = make_default_when_undefined(value["institution"], default_unknown);
+        local_country       = default_unknown;
+        local_exname        = make_default_when_undefined(value["exname"], default_unknown);
+        local_agmip_rating  = "unrated";
+        local_eid           = make_default_when_undefined(value["eid"], default_unknown);
 
 
         //----------------------------------------------check control
@@ -50,7 +51,6 @@ function build_table_with_data(data)
         local_rows = local_rows + "<td data-type='country' >"+      local_country  +"</td>";
         local_rows = local_rows + "<td data-type='exname' >"+       local_exname +"</td>";
         local_rows = local_rows + "<td data-type='rating' >"+       local_agmip_rating +"</td>";
-        local_rows = local_rows + "<td data-type='eid' >"+          local_eid +"</td>";
 
         table = table + "<tr data-id ='"+local_eid+"'>"+ local_rows +"</tr>";
         local_rows = "";
@@ -66,7 +66,6 @@ function build_table_with_data(data)
       					<th class="headerTbl ">Country</th> \
       					<th class="headerTbl ">EXNAME</th> \
       					<th class="headerTbl ">AgMIP Rating</th> \
-      					<th class="headerTbl ">eID</th> \
       				</tr>';
 
 
@@ -137,11 +136,11 @@ function show_hide_saved_data_table()
 
 
 //----------------------------------------------used to set undefined values to none
-function make_none_when_undefined(variable)
+function make_default_when_undefined(variable, default_variable)
 {
     if(typeof variable === 'undefined')
     {
-       return "none";
+       return default_variable;
     }
     return variable;
 }

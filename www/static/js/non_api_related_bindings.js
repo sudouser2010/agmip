@@ -53,7 +53,6 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
     row = row + "<td data-type='country' >"+      local_country  +"</td>";
     row = row + "<td data-type='exname' >"+       local_exname +"</td>";
     row = row + "<td data-type='rating' >"+       local_agmip_rating +"</td>";
-    row = row + "<td data-type='eid' >"+          local_eid +"</td>";
 
     row = "<tr data-id ='"+current_id+"'>"+ row +"</tr>";  
 
