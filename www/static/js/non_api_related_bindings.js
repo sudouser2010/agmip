@@ -320,9 +320,17 @@ $("#raise_up_download_modal").click(function(){
 });
 //--------------------------------------------------raising up the download modal
 
+//---------------------------------------------remove vertical scroll bar for modal
+$('.modal').on('show.bs.modal', function() {
 
+	$("body").css("overflow-y","hidden");
+	$(this).css("overflow-y","hidden");
+});
 
+$('.modal').on('hide.bs.modal', function() {
 
-
-
+	$("body").css("overflow-y","auto");
+	$(this).css("overflow-y","auto");
+});
+//---------------------------------------------remove vertical scroll bar for modal
 
