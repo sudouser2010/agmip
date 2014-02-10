@@ -1,5 +1,7 @@
 function obtain_initial_map_population()
 {
+	$('#spinner').modal('show');
+	
     options = {
     type:       "GET",
     url:        api_url, 
@@ -17,6 +19,9 @@ function obtain_initial_map_population()
 	{
 		$("#error_message").text("Error: Failed To Populate Map");
 		$('#alertModal').modal('show');
+		
+	}).always(function(){
+		$('#spinner').modal('hide');
 	});
 
 
@@ -25,6 +30,8 @@ function obtain_initial_map_population()
 
 function obtain_specific_crop_map_population(crop_type)
 {
+	$('#spinner').modal('show');
+	
     options = {
     type:       "GET",
     url:        api_url,
@@ -32,7 +39,7 @@ function obtain_specific_crop_map_population(crop_type)
     cache:      true,
     dataType:   "json",
                }; 
-
+	
     $.ajax( options)
     .done( function(result)
     {
@@ -41,6 +48,9 @@ function obtain_specific_crop_map_population(crop_type)
 	{
 		$("#error_message").text("Error: Search Operation Has Failed");
 		$('#alertModal').modal('show');
+		
+	}).always(function(){
+		$('#spinner').modal('hide');
 	});
 
 }
@@ -57,6 +67,9 @@ function retrieve_data(crop_type, geohashes, eid_count)
     }
     else
     {
+	
+		$('#spinner').modal('show');
+	
         geohashes = JSON.stringify(geohashes);
 
         options = {
@@ -66,7 +79,7 @@ function retrieve_data(crop_type, geohashes, eid_count)
         cache:      true,
         dataType:   "json",
                    }; 
-
+				   
         $.ajax( options )
         .done( function(result)
         {
@@ -75,6 +88,9 @@ function retrieve_data(crop_type, geohashes, eid_count)
 		{
 			$("#error_message").text("Error: Failed to Obtain Data");
 			$('#alertModal').modal('show');
+			
+		}).always(function(){
+			$('#spinner').modal('hide');
 		});
     }
 
@@ -84,7 +100,8 @@ function retrieve_data(crop_type, geohashes, eid_count)
 
 function retrieve_database(database_types, eids)
 {
-
+	$('#spinner').modal('show');
+	
     eids           = JSON.stringify(eids);
     database_types = JSON.stringify(database_types);
 
@@ -95,7 +112,7 @@ function retrieve_database(database_types, eids)
     cache:      true,
     dataType:   "json",
                }; 
-
+ 
     $.ajax( options )
     .done( function(result)
     {
@@ -104,6 +121,9 @@ function retrieve_database(database_types, eids)
 	{
 		$("#error_message").text("Error: Failed to Download Database");
 		$('#alertModal').modal('show');
+		
+	}).always(function(){
+		$('#spinner').modal('hide');
 	});
 
 }
