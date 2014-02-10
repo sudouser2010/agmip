@@ -129,6 +129,7 @@ function show_hide_saved_data_table()
         $(".saved_data_button").hide();
 
         $('#saved_data_number').hide();
+		$("#select_all_current_data").prop('checked', false);
 
     }
 }

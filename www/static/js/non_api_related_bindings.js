@@ -44,7 +44,7 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
     local_agmip_rating  = $(selected_row).find("[data-type='rating']").text();
     local_eid           = $(selected_row).find("[data-type='eid']").text();
 
-    var row     =   "<td data-type='selector'>" + "<input class='saved_data_selector' type='checkbox' >" + "</td>";
+    var row     =   "<td data-type='selector'>" + "<span class='saved_data_selector glyphicon glyphicon-remove'></span>" + "</td>";
 
     row = row + "<td data-type='crid' >"+         local_crid  +"</td>";
     row = row + "<td data-type='pdate' >"+        local_pdate +"</td>";
@@ -294,7 +294,6 @@ $( "#clear_saved_data" ).click(function() {
     saved_data = [];
 
     show_hide_saved_data_table();
-	$("#select_all_current_data").prop('checked', false);
 });
 //---actions when user clicks on the clear saved data button
 
