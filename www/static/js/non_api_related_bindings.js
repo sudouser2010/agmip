@@ -140,6 +140,8 @@ $( '#current_data' ).on( "click", '#select_all_current_data', function()
 	if( $(this).prop('checked')  )
 	{
 		select_all_current_data();
+		//moves view down to saved data container. Let's user know that something changed
+		$('html, body').animate({scrollTop: $("#saved_data_container").offset().top}, 1200);
 	}
 	else
 	{

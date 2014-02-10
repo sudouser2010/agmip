@@ -94,7 +94,7 @@ function build_table_with_data(data)
     $('#current_data_number').show();
     $('#current_data_number').find("b").text(data.length);
 
-	//moves view down to the element of interest. Let's user know that something
+	//moves view down to current data container. Let's user know that something changed
 	$('html, body').animate({scrollTop: $("#current_data_container").offset().top}, 1200);
 
 }
