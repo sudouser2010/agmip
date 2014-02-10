@@ -28,6 +28,7 @@ function build_table_with_data(data)
         local_exname        = make_default_when_undefined(value["exname"], default_unknown);
         local_agmip_rating  = "unrated";
         local_eid           = make_default_when_undefined(value["eid"], default_unknown);
+		current_data.push(local_eid);
 
 
         //----------------------------------------------check control
@@ -58,7 +59,7 @@ function build_table_with_data(data)
     }
 
     var top_row =	'<tr> \
-      					<th class="headerTbl ">Selected</th> \
+      					<th class="headerTbl "><input id="select_all_current_data" type="checkbox" ></th> \
       					<th class="headerTbl ">Crop</th> \
       					<th class="headerTbl ">Planting Date</th> \
       					<th class="headerTbl ">Soil Texture</th> \

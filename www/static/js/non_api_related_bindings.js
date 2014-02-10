@@ -133,10 +133,25 @@ $( "#obtain_data" ).click(function() {
 });
 //--------------------------------------------obtains data by clicking obtain data button
 
+//--------------------------------------------------------when user hits checkbox
+$( '#current_data' ).on( "click", '#select_all_current_data', function() 
+{
 
-//----------------------actions when user clicks on the select all current data button
-$( "#select_all_current_data" ).click(function() {
+	if( $(this).prop('checked')  )
+	{
+		select_all_current_data();
+	}
+	else
+	{
+		deselect_all_current_data();
+	}
 
+});
+//--------------------------------------------------------when user hits checkbox
+
+//----------------------------------------select all current data
+function select_all_current_data()
+{
     var rows = $("#current_data table").find("tr");
     var selected_row;
     var current_id;
@@ -177,14 +192,48 @@ $( "#select_all_current_data" ).click(function() {
         }
 
     });
+	
+}
+//----------------------------------------select all current data
 
-});
-//----------------------actions when user clicks on the select all current data button
+//--------------------------------deselect all current data
+function deselect_all_current_data()
+{
+	var index_of_eid;
+	var local_eid;
+	
+    for (var i=0; i < current_data.length; i++)
+    {
+		local_eid 		= current_data[i];
+		index_of_eid 	= saved_data.indexOf(local_eid);
+		
+		//--------------------------------controls saved_data and current data
+		if(index_of_eid != -1)
+		{
+			//remove this eid from the saved_data array                   
+			saved_data.splice(index_of_eid, 1); 
+			//$(selected_row).remove();
+			
+			//remove the row from the saved data table
+			$("#saved_data").find("[data-id='"+ local_eid +"']").remove();
+
+			//find checkbox in current data remove checkmark
+			$("#current_data").find("[data-id='"+local_eid+"']").find('.current_data_selector').prop('checked', false);
+		}
+		//--------------------------------controls saved_data and current data
+			
+	}
+	
+	show_hide_saved_data_table();
+
+}
+//--------------------------------deselect all current data
 
 
-//---actions when user clicks on the clear current data button
-$( "#clear_current_data" ).click(function() {
 
+//----------------------------------------remove all current data
+function remove_all_current_data()
+{
     //this destroys the current_data table
     $("#current_data").find("table").remove();
 
@@ -192,8 +241,8 @@ $( "#clear_current_data" ).click(function() {
     $("#clear_current_data").css("display","none");
     $("#current_data_number").hide();
 	$("#current_data").hide();
-});
-//---actions when user clicks on the clear current data button
+}
+//----------------------------------------remove all current data
 
 
 //----------------------actions when user clicks on the saved data selector
@@ -220,6 +269,12 @@ $( "#clear_current_data" ).click(function() {
 
     });
 //----------------------actions when user clicks on the saved data selector
+
+//------------------------clear current data
+$( "#clear_current_data" ).click(function() {
+	remove_all_current_data();
+});
+//------------------------clear current data
 
 //---actions when user clicks on the clear saved data button
 $( "#clear_saved_data" ).click(function() {
