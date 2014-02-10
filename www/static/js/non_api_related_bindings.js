@@ -294,7 +294,7 @@ $( "#clear_saved_data" ).click(function() {
     saved_data = [];
 
     show_hide_saved_data_table();
-    
+	$("#select_all_current_data").prop('checked', false);
 });
 //---actions when user clicks on the clear saved data button
 
