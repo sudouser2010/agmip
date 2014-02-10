@@ -228,6 +228,11 @@ left:10px !important;
 }
 
 /* Search Styles*/
+.glyphicon-remove
+{
+	font-size:130%;
+	cursor: pointer;
+}
 .searchPageTitle{
 	color:#97a5a6 ;
 	font-weight:normal;
