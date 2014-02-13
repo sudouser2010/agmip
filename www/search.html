@@ -478,36 +478,37 @@
 		self.deselectSubsetCheckMarks = function() 
 		{
 			/*
-				code deselects elements which are in the intersection of 
+				Overview: code deselects elements which are in the intersection of 
 				the current_data elements and the saved_data elements
+				
+				Code does the following:
+				(1) loop through current data
+				(2) unchecks the checkmark of each current data
+				(3) obtains eid of each current data
+				(4) gets index of datum (called saved data index) associated with that particular eid in the saved data array
+				
+				(5a) If the the saved_data_index is -1, then the datum associated with that eid is not in the saved data array
+				(5a) run show_hide_saved_data_table code
+				
+				(5b) If the the saved_data_index is not -1, then the datum associated with that eid is in the saved data array
+				(6b) use saved_data_index to remove the datum associated with that particular index from the saved data array
+				(7b) run show_hide_saved_data_table code
 			*/
 		
-			//function loops through all checkmarks and sets them to false
 			for( i=0; i< self.current_data().length; i++ )
 			{
-				self.updateCheckMark(i, false);
+				self.updateCheckMark(i, false);												
 
-				datum = self.current_data()[i];
-				
-				//self.saved_data.remove(datum);
-				/*
-				current_data_eid = self.current_data()[i]["eid"];
+				current_data_eid = self.current_data()[i]["eid"];							
 				saved_data_index = self.find_index(current_data_eid, self.saved_data());
 				
-				if( saved_data_index !=)
+				if(saved_data_index != -1)
 				{
-				
+					//remove element from saved data array
+					self.removeElementFromArray(saved_data_index, self.saved_data()  );
 				}
-				*/
-				
-				
-				
-				
-				
 			}
-			//self.show_hide_current_data_table();
-			//self.saved_data([]);
-	
+				
 			self.show_hide_saved_data_table();
 		}
 		
@@ -519,12 +520,13 @@
 			{
 				current_data_eid = self.current_data()[i]["eid"];
 				index = self.find_index(current_data_eid, self.saved_data());
-				
+				self.updateCheckMark(i, true);	
+					
 				if(index == -1)
 				{
 					//the current_data eid is not in the array then push it into saved_data
 					self.saved_data.push( self.current_data()[i] );
-					self.updateCheckMark(i, true);
+
 				}
 				
 			}
@@ -574,6 +576,19 @@
 
 			self.show_hide_saved_data_table();		
 		}
+		
+		
+
+		self.removeElementFromArray = function(index, array)
+		{
+			return array.splice(index, 1);
+		}
+		
+		self.insertElementToArray = function(index, array, element)
+		{
+			return array.splice(index, 0, element);
+		}
+		
 		
 		//-----------------------------------------------------------find index of eid
 		self.find_index = function(eid, array)
