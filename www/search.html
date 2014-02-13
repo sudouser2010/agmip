@@ -195,7 +195,6 @@
 									<tr>
 										<td data-type='selector'>
 											<input class='current_data_selector' type='checkbox' data-bind="onClick: vm.selectorClicked, attr: { 'checked':checked, 'data-id': eid }">
-
 										</td>
 										<td data-bind="text: crid"></td>
 										<td data-bind="text: pdate"></td>
@@ -475,12 +474,51 @@
 			self.show_hide_saved_data_table();
 		}	
 		
+		
+		self.deselectSubsetCheckMarks = function() 
+		{
+			/*
+				code deselects elements which are in the intersection of 
+				the current_data elements and the saved_data elements
+			*/
+		
+			//function loops through all checkmarks and sets them to false
+			for( i=0; i< self.current_data().length; i++ )
+			{
+				self.updateCheckMark(i, false);
+
+				datum = self.current_data()[i];
+				
+				//self.saved_data.remove(datum);
+				/*
+				current_data_eid = self.current_data()[i]["eid"];
+				saved_data_index = self.find_index(current_data_eid, self.saved_data());
+				
+				if( saved_data_index !=)
+				{
+				
+				}
+				*/
+				
+				
+				
+				
+				
+			}
+			//self.show_hide_current_data_table();
+			//self.saved_data([]);
+	
+			self.show_hide_saved_data_table();
+		}
+		
+		
+		
 		self.selectAllCheckMarks = function() 
 		{
 			for( var i=0; i < self.current_data().length; i++)
 			{
 				current_data_eid = self.current_data()[i]["eid"];
-				index = find_index(current_data_eid, self.saved_data());
+				index = self.find_index(current_data_eid, self.saved_data());
 				
 				if(index == -1)
 				{
@@ -502,12 +540,11 @@
 				//this is when de-selection is occurring
 				self.selectedAllChecked(false);
 				
-				self.deselectAllCheckMarks();
+				self.deselectSubsetCheckMarks();
 				
 			}else{
 				//this is when selection is occurring			
 				self.selectedAllChecked(true);
-
 				self.selectAllCheckMarks();
 				//moves view down to saved data container. Let's user know that something changed
 				$('html, body').animate({scrollTop: $("#saved_data_container").offset().top}, 1200);

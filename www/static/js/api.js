@@ -91,6 +91,7 @@ function retrieve_data(crop_type, geohashes, eid_count)
 			
 		}).always(function(){
 			$('#spinner').modal('hide');
+			vm.selectedAllChecked(false);	//deselect the select all checkmark
 		});
     }
 
