@@ -194,7 +194,7 @@
 								<tbody data-bind="foreach: current_data">
 									<tr>
 										<td data-type='selector'>
-											<input class='current_data_selector' type='checkbox' data-bind="onClick: vm.selectorClicked, attr: { 'checked':checked, 'data-id': eid }">
+											<input class='current_data_selector' type='checkbox' data-bind="click: vm.selectorClicked, attr: { 'checked':checked, 'data-id': eid }">
 										</td>
 										<td data-bind="text: crid"></td>
 										<td data-bind="text: pdate"></td>
@@ -567,7 +567,7 @@
 
 			}	
 
-			return true;
+			return true;					//returns true so the checkbox will function correctly
 		}
 		
 		self.removeAllCurrentData = function()
@@ -622,34 +622,40 @@
 		//-----------------------------------------------------------find index of eid
 	
 		self.selectorClicked = function(experiment) 
-		{
-			//alert(JSON.stringify(experiment)); //works
-			
+		{	
 			/*
-				(1)Code gets eid html data-id
-				(2)Code uses eid to get the saved_data_index
+				(1)Code uses eid to get the saved_data_index
 				
-				(3a) If saved_data_index is -1, then the eid is not in the saved_data array
-				(4a) Code uses the eid to find the current_data_index
-				(5a) Code uses the index to get the corresponding datum for the eid
-				(6a) And pushes that datum into the saved_data array
+				(2a) If saved_data_index is -1, then the datum associated with the eid is not in the saved_data array
+				(3a) Code uses the eid to find the current_data_index
+				(4a) Code uses the index to get the corresponding datum for the eid
+				(5a) And pushes that datum into the saved_data array
+				(6a) Code checks checkbox to show element is selected
+				(7a) run show_hide_saved_data_table
 				
-				(3b) If saved_data_index is not -1, code uses the saved_data_index to remove the datum for that corresponding eid from the saved_data array	
+				(2b) If saved_data_index is not -1, then the datum associated with the eid is in the saved_data_array
+				(3b) code uses the saved_data_index to remove the datum for that corresponding eid from the saved_data array	
+				(4b) code unchecks checkbox to show element is not selected
+				(5b) run show_hide_saved_data_table
 			*/
-				eid = $(this).data('id');
-	
-	saved_data_index = find_index(eid, vm.saved_data());
-	
-	if(saved_data_index == -1 )									//(3a)
-	{
-		current_data_index = find_index(eid, vm.saved_data()); 	//(4a)
-		datum = vm.current_data()[current_data_index];			//(5a)
-		vm.current_data.push(datum);							//(6a)
-	}else{
-	
-		vm.saved_data()[saved_data];
-	}
+		
+			saved_data_index = self.find_index( experiment["eid"] , self.saved_data());			//(1)
 			
+			if( saved_data_index == -1)															//(2a)
+			{
+				current_data_index = self.find_index( experiment["eid"] , self.current_data() )	//(3a)
+				datum = self.current_data()[current_data_index];								//(4a)
+				self.saved_data.push(datum);													//(5a)		
+				self.updateCheckMark(current_data_index, true);									//(6a)
+			}
+			else{ //(2b)
+				saved_data.removeValueAtIndex(saved_data_index);								//(3b)
+				self.updateCheckMark(current_data_index, false);								//(6a)				
+			}
+			
+			self.show_hide_saved_data_table();													//(7a) and (5b)
+			
+			return true;																		//returns true so the checkbox will function correctly
 		}
 		
 		
