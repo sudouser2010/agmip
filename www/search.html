@@ -422,6 +422,22 @@
 
 
 	<script>
+	//-----------------------------for extra knockout array functionality
+	ko.observableArray.fn.removeValueAtIndex = function(index) 
+	{
+		this.valueWillMutate();
+		this().splice(index, 1);
+		this.valueHasMutated();
+	}	
+	
+	ko.observableArray.fn.changeValueAtIndex = function(index,value) 
+	{
+		this.valueWillMutate();
+		this()[index] = value;
+		this.valueHasMutated();
+	}		
+	//-----------------------------for extra knockout array functionality	
+	
 	function experiment(eid, crid, pdate, soil, institution, country, exname, rating, checked) 
 	{
 
@@ -506,7 +522,7 @@
 				if(saved_data_index != -1)
 				{
 					//remove element from saved data array
-					self.removeElementFromArray(saved_data_index, self.saved_data()  );
+					self.saved_data.removeValueAtIndex(saved_data_index);		
 				}
 			}
 				
@@ -560,7 +576,6 @@
 			$("#current_data_number").hide();
 			$("#current_data").hide();
 			self.current_data([]);				//empties the array
-			
 			self.selectedAllChecked(false);		//deselects the select all checkbox
 		}
 		
@@ -707,9 +722,9 @@
 		
 	ko.applyBindings(vm);
 	
+
 	
-	
-	
+
 	
 	
 	
