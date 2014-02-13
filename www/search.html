@@ -649,7 +649,7 @@
 				self.updateCheckMark(current_data_index, true);									//(6a)
 			}
 			else{ //(2b)
-				saved_data.removeValueAtIndex(saved_data_index);								//(3b)
+				self.saved_data.removeValueAtIndex(saved_data_index);							//(3b)
 				self.updateCheckMark(current_data_index, false);								//(6a)				
 			}
 			
@@ -694,7 +694,7 @@
 				
 				$(".saved_data_button").show();
 
-				//if the saved_data_container is toggled, then un toggle it
+				//if the saved_data_container is toggled, then untoggle it
 				//information on whether the saved_data_container is toggled is stored else where
 				var toggle_me_element = $("a[data-target='#saved_data_container']");
 
