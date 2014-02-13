@@ -468,10 +468,11 @@
 			{
 				self.updateCheckMark(i, false);
 			}
-			//self.show_hide_current_data_table();
 			self.saved_data([]);
 	
 			self.show_hide_saved_data_table();
+			
+			self.selectedAllChecked(false);		//deselects the select all checkbox
 		}	
 		
 		
@@ -526,17 +527,13 @@
 				{
 					//the current_data eid is not in the array then push it into saved_data
 					self.saved_data.push( self.current_data()[i] );
-
-				}
-				
+				}			
 			}
 			self.show_hide_saved_data_table();
 		}	
 		
 		self.selectAllCurrentDataClicked = function()
 		{
-		
-
 			if(self.selectedAllChecked())
 			{
 				//this is when de-selection is occurring
@@ -548,11 +545,11 @@
 				//this is when selection is occurring			
 				self.selectedAllChecked(true);
 				self.selectAllCheckMarks();
+				
 				//moves view down to saved data container. Let's user know that something changed
 				$('html, body').animate({scrollTop: $("#saved_data_container").offset().top}, 1200);
 
-			}
-			
+			}	
 
 			return true;
 		}

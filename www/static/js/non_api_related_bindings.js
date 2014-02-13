@@ -1,17 +1,4 @@
 
-//----------------------obtains data by right clicking on cluster or point
-$( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function( event ) 
-{
-    var geohashes = $(this).data("geohashes"); 
-    var eid_count = $(this).data("eid_count"); 
-    map.closePopup();
-
-    retrieve_data('none', geohashes, eid_count);
-
-});
-//----------------------obtains data by right clicking on cluster or point
-
-
 //-----------------------------------------------apply filter
 $( "#apply_filter" ).click(function() 
 {
@@ -21,40 +8,6 @@ $( "#apply_filter" ).click(function()
 
 });
 //-----------------------------------------------apply filter
-
-
-//--------------------------------------------obtains data by clicking obtain data button
-/*
-    This function obtains data from database and builds current data table
-*/
-$( "#obtain_data" ).click(function() {
-
-
-    var crop_id     = $("#crop_filter").val();
-    var geohashes   = [];
-    var map_bounds  = map.getBounds();
-    var eid_count   = 0;
-    var marker;
-
-    //---selects geohashes if marker is within the bounds of view
-    for (var i=0; i < markers.length; i++)
-    {
-        marker = markers[i];
-        if( map_bounds.contains([parseFloat(marker['_latlng']["lat"]) ,parseFloat(marker['_latlng']["lng"])]) )
-        {                    
-            geohashes.push(marker['options']['geohash']);
-            eid_count = eid_count + parseFloat(marker['options']['count']);
-        }
-    }
-    //---selects geohashes if marker is within the bounds of view
-
-    //retrieve_data triggers the build table function
-    retrieve_data(crop_id, geohashes, eid_count);
-
-});
-//--------------------------------------------obtains data by clicking obtain data button
-
-
 
 
 //----------------------actions when user clicks on the saved data selector
@@ -81,20 +34,6 @@ $( "#obtain_data" ).click(function() {
 
     });
 //----------------------actions when user clicks on the saved data selector
-
-
-//---actions when user clicks on the clear saved data button
-$( "#bbbbclear_saved_data" ).click(function() {
-
-    //this resets the saved data array
-    vm.saved_data([]);
-	
-	vm.deselectAllCheckMarks();
-
-    show_hide_saved_data_table();
-});
-//---actions when user clicks on the clear saved data button
-
 
 
 //-----------------------------------------actions when user clicks download data button
