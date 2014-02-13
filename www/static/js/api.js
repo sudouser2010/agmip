@@ -83,7 +83,7 @@ function retrieve_data(crop_type, geohashes, eid_count)
         $.ajax( options )
         .done( function(result)
         {
-            $("#map").trigger("build_table_with_data", {'data': result });
+            $("#map").trigger("build_current_data", {'data': result });
         }).fail(function()
 		{
 			$("#error_message").text("Error: Failed to Obtain Data");

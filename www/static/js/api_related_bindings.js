@@ -11,10 +11,10 @@ $("#map").on("place_markers_and_clusters_on_map", function(event, event_data)
 
 });
 
-$("#map").on("build_table_with_data", function(event, event_data) 
+$("#map").on("build_current_data", function(event, event_data) 
 {
 
-    build_table_with_data(event_data['data']); 
+    build_current_data(event_data['data']); 
 
 });
 
