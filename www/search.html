@@ -194,7 +194,7 @@
 								<tbody data-bind="foreach: current_data">
 									<tr>
 										<td data-type='selector'>
-											<input class='current_data_selector' type='checkbox' data-bind="click: vm.selectorClicked, attr: { 'checked':checked, 'data-id': eid }">
+											<input class='current_data_selector' type='checkbox' data-bind="click: vm.selectorClicked, attr: { 'data-id': eid }">
 										</td>
 										<td data-bind="text: crid"></td>
 										<td data-bind="text: pdate"></td>
@@ -566,7 +566,6 @@
 			}	
 
 			$(event.target).prop("checked", self.selectedAllChecked()); //maintains binding via jquery
-
 			
 			return true;					//returns true so the checkbox will function correctly
 		}
@@ -577,7 +576,7 @@
 			$("#current_data_number").hide();
 			$("#current_data").hide();
 			self.current_data([]);				//empties the array
-			self.selectedAllChecked(false);		//deselects the select all checkbox
+			self.show_hide_current_data_table();
 		}
 		
 		
@@ -663,25 +662,34 @@
 		//---------------------------controls visibility of current table
 		self.show_hide_current_data_table = function()
 		{
-			//shows current data
-			$("#current_data").show();	
-			$("#clear_current_data").show();
+		
+			if( vm.current_data().length > 0)
+			{
+				//shows current data
+				$("#current_data").show();	
+				$("#clear_current_data").show();
 
-			//sets the current_data_number
-			$('#current_data_number').show();
-			$('#current_data_number').find("b").text(self.current_data().length);
+				//sets the current_data_number
+				$('#current_data_number').show();
+				$('#current_data_number').find("b").text(self.current_data().length);
 
-			//if the current_data_container is toggled, then un toggle it
-			//information on whether the current_data_container is toggled is stored else where
-			var toggle_me_element = $("a[data-target='#current_data_container']");
+				//if the current_data_container is toggled, then un toggle it
+				//information on whether the current_data_container is toggled is stored else where
+				var toggle_me_element = $("a[data-target='#current_data_container']");
 
-			if(toggle_me_element.hasClass("collapsed")){
-				toggle_me_element.removeClass("collapsed");
-				$('#current_data_container').collapse('toggle');
-				}
-			
-			//moves view down to current data container. Let's user know that something changed
-			$('html, body').animate({scrollTop: $("#current_data_container").offset().top}, 1200);
+				if(toggle_me_element.hasClass("collapsed")){
+					toggle_me_element.removeClass("collapsed");
+					$('#current_data_container').collapse('toggle');
+					}
+				
+				//moves view down to current data container. Let's user know that something changed
+				$('html, body').animate({scrollTop: $("#current_data_container").offset().top}, 1200);
+			}
+			else
+			{
+				self.selectedAllChecked(false);
+				$("#select_all_current_data").prop('checked', false);
+			}
 		}
 		//---------------------------controls visibility of current table
 		
@@ -715,6 +723,7 @@
 				$(".saved_data_button").hide();
 
 				$('#saved_data_number').hide();
+				self.selectedAllChecked(false);
 				$("#select_all_current_data").prop('checked', false);
 
 			}
