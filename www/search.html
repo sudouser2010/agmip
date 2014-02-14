@@ -177,7 +177,7 @@
 								<thead>
 									<tr> 
 										<th class="headerTbl ">
-											<input id="select_all_current_data" type="checkbox" data-bind="click: vm.selectAllCurrentDataClicked, checked: vm.selectedAllChecked">
+											<input id="select_all_current_data" type="checkbox" data-bind="click: vm.selectAllCurrentDataClicked">
 										</th>
 										<th class="headerTbl ">Crop</th> 
 										<th class="headerTbl ">Planting Date</th> 
@@ -477,6 +477,7 @@
 			self.current_data()[index].checked( !self.current_data()[index].checked() );
 		}
 		
+		
 		self.deselectAllCheckMarks = function() 
 		{
 			//function loops through all checkmarks and sets them to false
@@ -484,9 +485,6 @@
 			{
 				self.updateCheckMark(i, false);
 			}
-			self.saved_data([]);
-	
-			self.show_hide_saved_data_table();
 			
 			self.selectedAllChecked(false);		//deselects the select all checkbox
 		}	
@@ -548,7 +546,7 @@
 			self.show_hide_saved_data_table();
 		}	
 		
-		self.selectAllCurrentDataClicked = function()
+		self.selectAllCurrentDataClicked = function(data, event)
 		{
 			if(self.selectedAllChecked())
 			{
@@ -567,6 +565,9 @@
 
 			}	
 
+			$(event.target).prop("checked", self.selectedAllChecked()); //maintains binding via jquery
+
+			
 			return true;					//returns true so the checkbox will function correctly
 		}
 		
