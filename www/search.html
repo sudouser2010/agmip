@@ -463,6 +463,11 @@
 		self.saved_data 		= ko.observableArray([]);		
 		self.selectedAllChecked = ko.observable(false);	
 		
+		
+		self.selectedAllChecked.subscribe(function(newValue) {
+			//whenever this observable changes, the checkbox will be updated automatically with jquery
+			$("#select_all_current_data").prop('checked', newValue);
+		});
 
 		
 		self.updateCheckMark = function(index, value) 
@@ -564,8 +569,6 @@
 				$('html, body').animate({scrollTop: $("#saved_data_container").offset().top}, 1200);
 
 			}	
-
-			$(event.target).prop("checked", self.selectedAllChecked()); //maintains binding via jquery
 			
 			return true;					//returns true so the checkbox will function correctly
 		}
@@ -663,7 +666,7 @@
 		self.show_hide_current_data_table = function()
 		{
 		
-			if( vm.current_data().length > 0)
+			if( self.current_data().length > 0)
 			{
 				//shows current data
 				$("#current_data").show();	
@@ -688,7 +691,6 @@
 			else
 			{
 				self.selectedAllChecked(false);
-				$("#select_all_current_data").prop('checked', false);
 			}
 		}
 		//---------------------------controls visibility of current table
@@ -696,7 +698,7 @@
 		//---------------------------controls visibility of saved table
 		self.show_hide_saved_data_table = function()
 		{
-			if( vm.saved_data().length > 0)
+			if( self.saved_data().length > 0)
 			{   
 				//shows saved data
 				$("#saved_data").show();
@@ -724,7 +726,7 @@
 
 				$('#saved_data_number').hide();
 				self.selectedAllChecked(false);
-				$("#select_all_current_data").prop('checked', false);
+
 
 			}
 		}
