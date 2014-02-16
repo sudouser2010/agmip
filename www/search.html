@@ -177,7 +177,7 @@
 								<thead>
 									<tr> 
 										<th class="headerTbl ">
-											<input id="select_all_current_data" type="checkbox" data-bind="click: vm.selectAllCurrentDataClicked">
+											<input id="select_all_current_data" type="checkbox" data-bind="accessDOMElement:selected_all_checked, click: vm.selectAllCurrentDataClicked, attr:{'checked':selected_all_checked,}">
 										</th>
 										<th class="headerTbl ">Crop</th> 
 										<th class="headerTbl ">Planting Date</th> 
@@ -194,7 +194,7 @@
 								<tbody data-bind="foreach: current_data">
 									<tr>
 										<td data-type='selector'>
-											<input class='current_data_selector' type='checkbox' data-bind="click: vm.selectorClicked, attr: { 'data-id': eid }">
+											<input class='current_data_selector' type='checkbox' data-bind="accessDOMElement:checked, click: vm.selectorClicked, attr: {'checked':checked, 'data-id': eid }">
 										</td>
 										<td data-bind="text: crid"></td>
 										<td data-bind="text: pdate"></td>
@@ -436,7 +436,22 @@
 		this()[index] = value;
 		this.valueHasMutated();
 	}		
-	//-----------------------------for extra knockout array functionality	
+	//-----------------------------for extra knockout array functionality
+
+
+	//-----------------------------------------for accessing the element binded to an observable
+	ko.bindingHandlers.accessDOMElement = {
+		init: function (element, valueAccessor, allBindingsAccessor, viewModel) { 
+		valueAccessor().extend({element: element });
+		}
+	};
+	
+	ko.extenders.element = function (target, element) 
+	{
+	  target.DOMElement = element;
+	}
+	//-----------------------------------------for accessing the element binded to an observable
+
 	
 	function experiment(eid, crid, pdate, soil, institution, country, exname, rating, checked) 
 	{
@@ -453,52 +468,74 @@
 		self.rating			= rating;
 		self.checked		= ko.observable(checked);
 	
+	
+		//-------------------------show or hides the checkbox when the variable "checked" changes
+		self.checked.subscribe(function(newValue) {
+			//whenever this observable changes, the view will be updated with jquery
+			$(this.target.DOMElement).prop('checked', newValue);
+		});
+		//-------------------------show or hides the checkbox when the variable "checked" changes
+	
 	}
 
 
 	function all_experiments() {
 		var self = this;
 		
-		self.current_data 		= ko.observableArray([]);
-		self.saved_data 		= ko.observableArray([]);		
-		self.selectedAllChecked = ko.observable(false);	
+		self.current_data 			= ko.observableArray([]);
+		self.saved_data 			= ko.observableArray([]);		
+		self.selected_all_checked 	= ko.observable(false);	
 		
-		
-		self.selectedAllChecked.subscribe(function(newValue) {
-			//whenever this observable changes, the checkbox will be updated automatically with jquery
-			$("#select_all_current_data").prop('checked', newValue);
+		//----------------------show or hides the checkbox when the variable "selected_all_checked" changes		
+		self.selected_all_checked.subscribe(function(newValue) {
+		//whenever this observable changes, the view will be updated with jquery
+		$(this.target.DOMElement).prop('checked', newValue);
 		});
-
+		//----------------------show or hides the checkbox when the variable "selected_all_checked" changes		
 		
+		
+		//--------------updates checkmark in checkbox on current data table
 		self.updateCheckMark = function(index, value) 
 		{	
 			//function assigns a value to the check mark
 			self.current_data()[index].checked(value);
 		}
-		
+		//--------------updates checkmark in checkbox on current data table
+
+		//-----------------------toggles checkmark
 		self.toggleCheckMark = function(index) 
 		{
 			//function reverses the boolean value of the checkmark
 			self.current_data()[index].checked( !self.current_data()[index].checked() );
 		}
+		//-----------------------toggles checkmark
 		
 		
-		self.deselectAllCheckMarks = function() 
+		
+		//------------------------------------------when user checkbox on current data table to select all
+		self.selectAllCheckMarks = function() 
 		{
-			//function loops through all checkmarks and sets them to false
-			for( i=0; i< self.current_data().length; i++ )
+			for( var i=0; i < self.current_data().length; i++)
 			{
-				self.updateCheckMark(i, false);
+				current_data_eid = self.current_data()[i]["eid"];
+				index = self.findIndex(current_data_eid, self.saved_data());
+				self.updateCheckMark(i, true);	
+
+				if(index == -1)
+				{
+					//the current_data eid is not in the array then push it into saved_data
+					self.saved_data.push( self.current_data()[i] );
+				}			
 			}
-			
-			self.selectedAllChecked(false);		//deselects the select all checkbox
 		}	
+		//------------------------------------------when user checkbox on current data table to select all
 		
 		
-		self.deselectSubsetCheckMarks = function() 
+		//------------------------------------------when user checkbox on current data table to deselect all
+		self.deselectAndRemoveSubsetCheckMarks = function() 
 		{
 			/*
-				Overview: code deselects elements which are in the intersection of 
+				Overview: code deselects (and removes) elements which are in the intersection of 
 				the current_data elements and the saved_data elements
 				
 				Code does the following:
@@ -508,19 +545,18 @@
 				(4) gets index of datum (called saved data index) associated with that particular eid in the saved data array
 				
 				(5a) If the the saved_data_index is -1, then the datum associated with that eid is not in the saved data array
-				(5a) run show_hide_saved_data_table code
+				(5a) run showHideSavedDataTable code
 				
 				(5b) If the the saved_data_index is not -1, then the datum associated with that eid is in the saved data array
 				(6b) use saved_data_index to remove the datum associated with that particular index from the saved data array
-				(7b) run show_hide_saved_data_table code
 			*/
-		
+
 			for( i=0; i< self.current_data().length; i++ )
 			{
+						
 				self.updateCheckMark(i, false);												
-
 				current_data_eid = self.current_data()[i]["eid"];							
-				saved_data_index = self.find_index(current_data_eid, self.saved_data());
+				saved_data_index = self.findIndex(current_data_eid, self.saved_data());
 				
 				if(saved_data_index != -1)
 				{
@@ -529,141 +565,124 @@
 				}
 			}
 				
-			self.show_hide_saved_data_table();
 		}
-		
-		
-		
-		self.selectAllCheckMarks = function() 
-		{
-			for( var i=0; i < self.current_data().length; i++)
-			{
-				current_data_eid = self.current_data()[i]["eid"];
-				index = self.find_index(current_data_eid, self.saved_data());
-				self.updateCheckMark(i, true);	
-					
-				if(index == -1)
-				{
-					//the current_data eid is not in the array then push it into saved_data
-					self.saved_data.push( self.current_data()[i] );
-				}			
-			}
-			self.show_hide_saved_data_table();
-		}	
-		
-		self.selectAllCurrentDataClicked = function(data, event)
-		{
-			if(self.selectedAllChecked())
-			{
-				//this is when de-selection is occurring
-				self.selectedAllChecked(false);
-				
-				self.deselectSubsetCheckMarks();
-				
-			}else{
-				//this is when selection is occurring			
-				self.selectedAllChecked(true);
-				self.selectAllCheckMarks();
-				
-				//moves view down to saved data container. Let's user know that something changed
-				$('html, body').animate({scrollTop: $("#saved_data_container").offset().top}, 1200);
+		//------------------------------------------when user checkbox on current data table to deselect all	
 
-			}	
-			
-			return true;					//returns true so the checkbox will function correctly
-		}
 		
+		//---------------------------when user hits the x icon at the top of the on saved data table
+		//this method is used by the clearSavedData method
+		self.deselectAllCheckMarks = function() 
+		{
+			//function loops through all checkmarks and sets them to false
+			for( i=0; i< self.current_data().length; i++ )
+			{
+				self.updateCheckMark(i, false);
+			}
+			
+		}			
+		//---------------------------when user hits the x icon at the top of the on saved data table
+		
+		//---------------------------when user hits clear on current data table
 		self.removeAllCurrentData = function()
 		{
 			$("#clear_current_data").css("display","none");
 			$("#current_data_number").hide();
 			$("#current_data").hide();
+			
 			self.current_data([]);				//empties the array
-			self.show_hide_current_data_table();
+			
+			self.showHideCurrentDataTable();
 		}
+		//---------------------------when user hits clear on current data table
 		
-		
+		//---------------------------when user hits the x icon at the top of the on saved data table
 		self.clearSavedData = function()
 		{
 			self.saved_data([]);
 			
 			self.deselectAllCheckMarks();
 
-			self.show_hide_saved_data_table();		
+			self.showHideSavedDataTable();		
 		}
-		
-		
-
-		self.removeElementFromArray = function(index, array)
-		{
-			return array.splice(index, 1);
-		}
-		
-		self.insertElementToArray = function(index, array, element)
-		{
-			return array.splice(index, 0, element);
-		}
-		
-		
-		//-----------------------------------------------------------find index of eid
-		self.find_index = function(eid, array)
-		{
-			//array returns index of eid or -1 (if eid is not in array)
-			//assumption: the eid and array[i]["eid"] are both strings
+		//---------------------------when user hits the x icon at the top of the on saved data table		
 			
-			for( var i=0; i < array.length; i++)
-			{
-			var a = array[i]["eid"];
-				if(eid == array[i]["eid"])
-				{
-					return i;
-				}
-			}
-			return -1;
-
-		}
-		//-----------------------------------------------------------find index of eid
 	
-		self.selectorClicked = function(experiment) 
+		//-------------------------------------------clicked on select all for current data table
+		self.selectAllCurrentDataClicked = function(data, event)
+		{	
+		
+			if(self.selected_all_checked())
+			{
+				//this is when de-selection is occurring
+				self.selected_all_checked(false);
+				
+				self.deselectAndRemoveSubsetCheckMarks();
+				
+				self.showHideSavedDataTable();
+				
+			}else{
+				//this is when selection is occurring			
+				self.selected_all_checked(true);
+				self.selectAllCheckMarks();
+				self.showHideSavedDataTable();
+				
+				//moves view down to saved data container. Let's user know that something changed
+				$('html, body').animate({scrollTop: $("#saved_data_container").offset().top}, 1200);
+
+			}	
+			
+			return true;	//returns true so the checkbox will function correctly
+		}
+		//-------------------------------------------clicked on select all for current data table
+
+		//------------------------------------------------------------clicked on a selector for current data table	
+		self.selectorClicked = function(experiment, event) 
 		{	
 			/*
-				(1)Code uses eid to get the saved_data_index
+				(1) Code uses eid to get the saved_data_index
+				(2) Code uses the eid to find the current_data_index
+				(3) Code toggles the checkbox
 				
-				(2a) If saved_data_index is -1, then the datum associated with the eid is not in the saved_data array
-				(3a) Code uses the eid to find the current_data_index
+				(4a) If saved_data_index is -1, then the datum associated with the eid is not in the saved_data array
+				(5a) Code uses the index to get the corresponding datum for the eid
+				(6a) And pushes that datum into the saved_data array
+				
+				
 				(4a) Code uses the index to get the corresponding datum for the eid
 				(5a) And pushes that datum into the saved_data array
 				(6a) Code checks checkbox to show element is selected
-				(7a) run show_hide_saved_data_table
+				(7a) run showHideSavedDataTable
 				
-				(2b) If saved_data_index is not -1, then the datum associated with the eid is in the saved_data_array
-				(3b) code uses the saved_data_index to remove the datum for that corresponding eid from the saved_data array	
-				(4b) code unchecks checkbox to show element is not selected
-				(5b) run show_hide_saved_data_table
+				(4b) If saved_data_index is not -1, then the datum associated with the eid is in the saved_data_array
+				(5b) code uses the saved_data_index to remove the datum for that corresponding eid from the saved_data 
+				(6b) run showHideSavedDataTable
 			*/
-		
-			saved_data_index = self.find_index( experiment["eid"] , self.saved_data());			//(1)
 			
-			if( saved_data_index == -1)															//(2a)
+			saved_data_index = self.findIndex( experiment["eid"] , self.saved_data());			//(1)
+			current_data_index = self.findIndex( experiment["eid"] , self.current_data());		//(2)
+			
+
+			self.toggleCheckMark(current_data_index);											//(3)
+			if( saved_data_index == -1)		//(4a)
 			{
-				current_data_index = self.find_index( experiment["eid"] , self.current_data() )	//(3a)
-				datum = self.current_data()[current_data_index];								//(4a)
-				self.saved_data.push(datum);													//(5a)		
-				self.updateCheckMark(current_data_index, true);									//(6a)
+				datum = self.current_data()[current_data_index];								//(5a)
+				self.saved_data.push(datum);													//(6a)	
 			}
-			else{ //(2b)
-				self.saved_data.removeValueAtIndex(saved_data_index);							//(3b)
-				self.updateCheckMark(current_data_index, false);								//(6a)				
+			else{	//(4b)
+				self.saved_data.removeValueAtIndex(saved_data_index);							//(5b)					
 			}
 			
-			self.show_hide_saved_data_table();													//(7a) and (5b)
+			self.showHideSavedDataTable();													//(7a) and (6b)
 			
-			return true;																		//returns true so the checkbox will function correctly
+			return true;																	//returns true so the checkbox will function correctly
 		}
+		//------------------------------------------------------------clicked on a selector for current data table	
+
+
 		
 		
 		//---------------------------controls visibility of current table
-		self.show_hide_current_data_table = function()
+		self.showHideCurrentDataTable = function()
 		{
 		
 			if( self.current_data().length > 0)
@@ -690,13 +709,13 @@
 			}
 			else
 			{
-				self.selectedAllChecked(false);
+				self.selected_all_checked(false);
 			}
 		}
 		//---------------------------controls visibility of current table
 		
 		//---------------------------controls visibility of saved table
-		self.show_hide_saved_data_table = function()
+		self.showHideSavedDataTable = function()
 		{
 			if( self.saved_data().length > 0)
 			{   
@@ -725,13 +744,30 @@
 				$(".saved_data_button").hide();
 
 				$('#saved_data_number').hide();
-				self.selectedAllChecked(false);
-
-
+				self.selected_all_checked(false);
 			}
 		}
 		//---------------------------controls visibility of saved table
 
+		
+		//-----------------------------------------------------------find index of eid
+		self.findIndex = function(eid, array)
+		{
+			//array returns index of eid or -1 (if eid is not in array)
+			//assumption: the eid and array[i]["eid"] are both strings
+			
+			for( var i=0; i < array.length; i++)
+			{
+			var a = array[i]["eid"];
+				if(eid == array[i]["eid"])
+				{
+					return i;
+				}
+			}
+			return -1;
+
+		}
+		//-----------------------------------------------------------find index of eid
 	
 	}
 
