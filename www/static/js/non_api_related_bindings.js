@@ -10,38 +10,13 @@ $( "#apply_filter" ).click(function()
 //-----------------------------------------------apply filter
 
 
-//----------------------actions when user clicks on the saved data selector
-  $( '#saved_data' ).on( "click", '.saved_data_selector', function( event ) 
-    {
-
-            var selected_row    = $(this).parent().parent();
-            var current_id      = $(selected_row).data('id');
-            var index           = saved_data.indexOf(current_id);
-
-            //--------------------------------controls saved_data
-            if(index != -1)
-            {
-                //remove eid from array                    
-                saved_data.splice(index, 1); 
-                $(selected_row).remove();
-
-                //find checkbox in current data remove checkmark
-                $("#current_data").find("[data-id='"+current_id+"']").find('.current_data_selector').prop('checked', false);
-            }
-            //--------------------------------controls saved_data
-
-            show_hide_saved_data_table();
-
-    });
-//----------------------actions when user clicks on the saved data selector
-
-
 //-----------------------------------------actions when user clicks download data button
 $( "#download_data" ).click(function() {
-    if( saved_data.length > 0)
+    if( vm.saved_data().length > 0)
     {   
         var database_types  = [];
         var check_boxes     = $(".db_type_filter");
+		var eids_from_saved_data = [];
 
         $(check_boxes).each(function(index, value) {
 
@@ -54,8 +29,8 @@ $( "#download_data" ).click(function() {
 
         });
 
-
-        retrieve_database(database_types, saved_data);
+		eids_from_saved_data = vm.extractEids( vm.saved_data() );
+        retrieve_database(database_types, eids_from_saved_data );
     }
 
 });

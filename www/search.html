@@ -777,7 +777,6 @@
 			
 			for( var i=0; i < array.length; i++)
 			{
-			var a = array[i]["eid"];
 				if(eid == array[i]["eid"])
 				{
 					return i;
@@ -787,6 +786,27 @@
 
 		}
 		//-----------------------------------------------------------find index of eid
+		
+		
+		//-----------------------------------------extract eids 
+		self.extractEids = function(array)
+		{
+			/*
+				This functions returns an array of all eids in either 
+				the current_data_array or the saved_data array. 
+				This is used to help format the data sent to the server for 
+				downloading databases
+			*/
+			
+			var eids = []
+			for( i=0; i< array.length; i++ )
+			{
+				eids.push(array[i]["eid"]);
+			}
+			
+			return eids;
+		}
+		//-----------------------------------------extract eids 
 	
 	}
 
