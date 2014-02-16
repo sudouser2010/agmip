@@ -259,7 +259,7 @@
 							<tbody data-bind="foreach: saved_data">
 								<tr>
 									<td data-type='selector'>
-										<span class='saved_data_selector glyphicon glyphicon-remove'></span>
+										<span class='saved_data_selector glyphicon glyphicon-remove' data-bind="click:vm.removerClicked"></span>
 									</td>
 									<td data-bind="text: crid"></td>
 									<td data-bind="text: pdate"></td>
@@ -635,7 +635,7 @@
 		}
 		//-------------------------------------------clicked on select all for current data table
 
-		//------------------------------------------------------------clicked on a selector for current data table	
+		//------------------------------------------------------clicked on a selector (checkbox) for current data table	
 		self.selectorClicked = function(experiment, event) 
 		{	
 			/*
@@ -676,10 +676,29 @@
 			
 			return true;																	//returns true so the checkbox will function correctly
 		}
-		//------------------------------------------------------------clicked on a selector for current data table	
+		//------------------------------------------------------clicked on a selector (checkbox) for current data table	
 
-
+		//-----------------------------clicked on a remover (x - icon) for saved data table	
 		
+		self.removerClicked = function(experiment)
+		{
+			/*
+				(1) Code uses eid to get the saved_data_index
+				(2) Code uses the saved_data_index to remove the datum for that corresponding eid from the saved_data 
+				(3) Code finds the current_data_index
+				(4) Code uses current_data_index to remove the checkmark from the corresponding data in the current_data table by toggling it
+				(5) Run showHideSavedDataTable
+			*/
+			
+			saved_data_index = self.findIndex( experiment["eid"] , self.saved_data());			//(1)		
+			self.saved_data.removeValueAtIndex(saved_data_index);								//(2)						
+			current_data_index = self.findIndex( experiment["eid"] , self.current_data());		//(3)			
+			self.toggleCheckMark(current_data_index);											//(4)			
+			
+			self.showHideSavedDataTable();														//(5)
+			return true;
+		}
+		//-----------------------------clicked on a remover (x - icon) for saved data table			
 		
 		//---------------------------controls visibility of current table
 		self.showHideCurrentDataTable = function()
