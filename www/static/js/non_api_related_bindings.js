@@ -1,13 +1,12 @@
 
 //----------------------obtains data by right clicking on cluster or point
-$( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function( event ) 
+$( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function() 
 {
-    var geohashes = $(this).data("geohashes"); 
-    var eid_count = $(this).data("eid_count"); 
+    var geohashes = $(this).data("geohashes");
+    var eid_count = $(this).data("eid_count");
     map.closePopup();
 
     retrieve_data('none', geohashes, eid_count);
-
 });
 //----------------------obtains data by right clicking on cluster or point
 
@@ -57,7 +56,7 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
     row = "<tr data-id ='"+current_id+"'>"+ row +"</tr>";  
 
     //appends row after the last row
-    $("#saved_data").find("table tr:last").after(row) 
+    $("#saved_data").find("table tr:last").after(row);
 }
 //----------------------------------generate saved_data row from a current data row
 
@@ -65,7 +64,7 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
 
 
 //----------------------actions when user clicks on the current data selector
-$( '#current_data' ).on( "click", '.current_data_selector', function( event ) 
+$( '#current_data' ).on( "click", '.current_data_selector', function() 
 {
         var selected_row    = $(this).parent().parent();
         /*
@@ -79,19 +78,19 @@ $( '#current_data' ).on( "click", '.current_data_selector', function( event )
         var index           = saved_data.indexOf(current_id);
 
         //--------------------------------controls saved_data
-        if(index == -1)
+        if(index === -1)
         {
             //add eid to array if eid is not in array already
-            saved_data.push( current_id );    
+            saved_data.push( current_id );
 
             //-----------------appends rows to saved table
-            generate_saved_data_row_from_current_data_row(selected_row, current_id);        
+            generate_saved_data_row_from_current_data_row(selected_row, current_id);
             //-----------------appends rows to saved table     
         }
         else
         {
             //remove eid from array                    
-            saved_data.splice(index, 1); 
+            saved_data.splice(index, 1);
             $("#saved_data").find("[data-id='"+current_id+"']").remove();
         }
         //--------------------------------controls saved_data
@@ -158,33 +157,30 @@ function select_all_current_data()
     var selected_row;
     var current_id;
     var index;
-
     var name;
-    var institution;
-    var row;
 
 
-    $(rows).each(function(i, value) 
+    $(rows).each(function(i)
     {
 
-
-        if(i > 0) //the first row is the title for columns, so skip it
-        {  
+		//the first row is the title for columns, so skip it
+        if(i > 0)
+        {
 
             selected_row    = rows[i];
             current_id      = $(selected_row).data('id');
 
             index           = saved_data.indexOf(current_id);
 
-            if(index == -1)
+            if(index === -1)
             {
                 $(selected_row).find(".current_data_selector").prop('checked', true);
 
                 //add eid to array if eid is not in array already
-                saved_data.push( current_id );    
+                saved_data.push( current_id );
 
                 //-----------------appends rows to saved table
-                generate_saved_data_row_from_current_data_row(selected_row, current_id);          
+                generate_saved_data_row_from_current_data_row(selected_row, current_id);
                 //-----------------appends rows to saved table     
             }
 
@@ -210,10 +206,10 @@ function deselect_all_current_data()
 		index_of_eid 	= saved_data.indexOf(local_eid);
 		
 		//--------------------------------controls saved_data and current data
-		if(index_of_eid != -1)
+		if(index_of_eid !== -1)
 		{
 			//remove this eid from the saved_data array                   
-			saved_data.splice(index_of_eid, 1); 
+			saved_data.splice(index_of_eid, 1);
 			//$(selected_row).remove();
 			
 			//remove the row from the saved data table
@@ -248,7 +244,7 @@ function remove_all_current_data()
 
 
 //----------------------actions when user clicks on the saved data selector
-  $( '#saved_data' ).on( "click", '.saved_data_selector', function( event ) 
+  $( '#saved_data' ).on( "click", '.saved_data_selector', function() 
     {
 
             var selected_row    = $(this).parent().parent();
@@ -256,10 +252,10 @@ function remove_all_current_data()
             var index           = saved_data.indexOf(current_id);
 
             //--------------------------------controls saved_data
-            if(index != -1)
+            if(index !== -1)
             {
-                //remove eid from array                    
-                saved_data.splice(index, 1); 
+                //remove eid from array             
+                saved_data.splice(index, 1);
                 $(selected_row).remove();
 
                 //find checkbox in current data remove checkmark
@@ -308,7 +304,7 @@ $( "#download_data" ).click(function() {
         var database_types  = [];
         var check_boxes     = $(".db_type_filter");
 
-        $(check_boxes).each(function(index, value) {
+        $(check_boxes).each(function(index) {
 
 
             //get the value if check box is selected
@@ -344,7 +340,7 @@ function enable_disable_download_button()
         }
     });
 
-    if(is_any_check_box_checked == false)
+    if(is_any_check_box_checked === false)
     {
         //if none of the check boxes were checked, then disable download button
         $("#download_data").prop('disabled', true);
