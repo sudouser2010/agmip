@@ -7,7 +7,8 @@
   height:35px;
   width:120px;
   padding:7px;
-   text-decoration:none !important;
+  text-decoration:none !important;
+  cursor: pointer;
 }
 
 .homepage_btn:hover{
@@ -71,6 +72,14 @@ color:#f1c40f !important;
 
 
 /* Upload page Styles*/
+.disabled
+{
+pointer-events: none;
+cursor: not-allowed;
+opacity: 0.65;
+box-shadow: none;
+}
+
 .numTxt{
 font-size:18px;
 float:right;
@@ -142,6 +151,7 @@ font-weight:normal;
 
 .loginBtn{
 padding-top:4px;
+cursor: pointer;
 }
 .logHt{
 min-height:55px;
@@ -218,6 +228,20 @@ left:10px !important;
 }
 
 /* Search Styles*/
+#spinner_image{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	top:300px;	
+	position:relative;
+}
+
+.glyphicon-remove
+{
+	font-size:130%;
+	cursor: pointer;
+	color: #982f24;
+}
 .searchPageTitle{
 	color:#97a5a6 ;
 	font-weight:normal;
@@ -236,7 +260,7 @@ margin-right:5px !important;
 }
 
 .agmipTable{
-height:300px !important; 
+max-height:300px !important; 
 overflow-y:scroll !important;
 overflow-x:scroll !important;
 }
@@ -250,6 +274,7 @@ cursor:pointer;
 color:#97a5a6 !important;
 font-family: FontAwesome;
 text-decoration:none !important;
+cursor: pointer;
 }
 a.collapseBtn.collapsed:before
 {
@@ -335,6 +360,7 @@ font-size:14px;
        font-size:16px;
        position:relative;
        top:-8px;
+	   cursor: pointer;
        
 
       }
@@ -346,6 +372,9 @@ font-size:14px;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+}
+.helpBtnBg:hover{
+          background: #236b9b !important;
 }
 .searchPos{
 position:relative;
@@ -372,6 +401,7 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+	   cursor: pointer;
       }
 .blueBtn:hover{
        color: #ffffff !important;
@@ -385,6 +415,7 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+	   cursor: pointer;
       }
 .redBtn{
        color: #ffffff !important;
@@ -393,6 +424,7 @@ border-radius:0px !important;
        height:35px;
        margin-top:7px !important;
        text-align:center;
+	   cursor: pointer;
       }
 .redBtn:hover{
        color: #ffffff !important;
@@ -416,6 +448,7 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+	   cursor: pointer;
       }
 .searchBtn:hover{
        color: #ffffff !important;
@@ -506,6 +539,7 @@ width:212px;
   }
 .greenBtn{
 padding-bottom:17px;
+cursor: pointer;
 }
 
 .soils{

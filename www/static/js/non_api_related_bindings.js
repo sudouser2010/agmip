@@ -1,13 +1,12 @@
 
 //----------------------obtains data by right clicking on cluster or point
-$( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function( event ) 
+$( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function() 
 {
-    var geohashes = $(this).data("geohashes"); 
-    var eid_count = $(this).data("eid_count"); 
+    var geohashes = $(this).data("geohashes");
+    var eid_count = $(this).data("eid_count");
     map.closePopup();
 
     retrieve_data('none', geohashes, eid_count);
-
 });
 //----------------------obtains data by right clicking on cluster or point
 
@@ -15,7 +14,7 @@ $( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function( event 
 //-----------------------------------------------apply filter
 $( "#apply_filter" ).click(function() 
 {
-
+	map.closePopup();
     var crop_id   = $("#crop_filter").val();
     obtain_specific_crop_map_population(crop_id);
 
@@ -44,7 +43,7 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
     local_agmip_rating  = $(selected_row).find("[data-type='rating']").text();
     local_eid           = $(selected_row).find("[data-type='eid']").text();
 
-    var row     =   "<td data-type='selector'>" + "<input class='saved_data_selector' type='checkbox' >" + "</td>";
+    var row     =   "<td data-type='selector'>" + "<span class='saved_data_selector glyphicon glyphicon-remove'></span>" + "</td>";
 
     row = row + "<td data-type='crid' >"+         local_crid  +"</td>";
     row = row + "<td data-type='pdate' >"+        local_pdate +"</td>";
@@ -53,12 +52,11 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
     row = row + "<td data-type='country' >"+      local_country  +"</td>";
     row = row + "<td data-type='exname' >"+       local_exname +"</td>";
     row = row + "<td data-type='rating' >"+       local_agmip_rating +"</td>";
-    row = row + "<td data-type='eid' >"+          local_eid +"</td>";
 
     row = "<tr data-id ='"+current_id+"'>"+ row +"</tr>";  
 
     //appends row after the last row
-    $("#saved_data").find("table tr:last").after(row) 
+    $("#saved_data").find("table tr:last").after(row);
 }
 //----------------------------------generate saved_data row from a current data row
 
@@ -66,7 +64,7 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
 
 
 //----------------------actions when user clicks on the current data selector
-$( '#current_data' ).on( "click", '.current_data_selector', function( event ) 
+$( '#current_data' ).on( "click", '.current_data_selector', function() 
 {
         var selected_row    = $(this).parent().parent();
         /*
@@ -80,19 +78,19 @@ $( '#current_data' ).on( "click", '.current_data_selector', function( event )
         var index           = saved_data.indexOf(current_id);
 
         //--------------------------------controls saved_data
-        if(index == -1)
+        if(index === -1)
         {
             //add eid to array if eid is not in array already
-            saved_data.push( current_id );    
+            saved_data.push( current_id );
 
             //-----------------appends rows to saved table
-            generate_saved_data_row_from_current_data_row(selected_row, current_id);        
+            generate_saved_data_row_from_current_data_row(selected_row, current_id);
             //-----------------appends rows to saved table     
         }
         else
         {
             //remove eid from array                    
-            saved_data.splice(index, 1); 
+            saved_data.splice(index, 1);
             $("#saved_data").find("[data-id='"+current_id+"']").remove();
         }
         //--------------------------------controls saved_data
@@ -134,41 +132,55 @@ $( "#obtain_data" ).click(function() {
 });
 //--------------------------------------------obtains data by clicking obtain data button
 
+//--------------------------------------------------------when user hits checkbox
+$( '#current_data' ).on( "click", '#select_all_current_data', function() 
+{
 
-//----------------------actions when user clicks on the select all current data button
-$( "#select_all_current_data" ).click(function() {
+	if( $(this).prop('checked')  )
+	{
+		select_all_current_data();
+		//moves view down to saved data container. Let's user know that something changed
+		$('html, body').animate({scrollTop: $("#saved_data_container").offset().top}, 1200);
+	}
+	else
+	{
+		deselect_all_current_data();
+	}
 
+});
+//--------------------------------------------------------when user hits checkbox
+
+//----------------------------------------select all current data
+function select_all_current_data()
+{
     var rows = $("#current_data table").find("tr");
     var selected_row;
     var current_id;
     var index;
-
     var name;
-    var institution;
-    var row;
 
 
-    $(rows).each(function(i, value) 
+    $(rows).each(function(i)
     {
 
-
-        if(i > 0) //the first row is the title for columns, so skip it
-        {  
+		//the first row is the title for columns, so skip it
+        if(i > 0)
+        {
 
             selected_row    = rows[i];
             current_id      = $(selected_row).data('id');
 
             index           = saved_data.indexOf(current_id);
 
-            if(index == -1)
+            if(index === -1)
             {
                 $(selected_row).find(".current_data_selector").prop('checked', true);
 
                 //add eid to array if eid is not in array already
-                saved_data.push( current_id );    
+                saved_data.push( current_id );
 
                 //-----------------appends rows to saved table
-                generate_saved_data_row_from_current_data_row(selected_row, current_id);          
+                generate_saved_data_row_from_current_data_row(selected_row, current_id);
                 //-----------------appends rows to saved table     
             }
 
@@ -178,26 +190,61 @@ $( "#select_all_current_data" ).click(function() {
         }
 
     });
+	
+}
+//----------------------------------------select all current data
 
-});
-//----------------------actions when user clicks on the select all current data button
+//--------------------------------deselect all current data
+function deselect_all_current_data()
+{
+	var index_of_eid;
+	var local_eid;
+	
+    for (var i=0; i < current_data.length; i++)
+    {
+		local_eid 		= current_data[i];
+		index_of_eid 	= saved_data.indexOf(local_eid);
+		
+		//--------------------------------controls saved_data and current data
+		if(index_of_eid !== -1)
+		{
+			//remove this eid from the saved_data array                   
+			saved_data.splice(index_of_eid, 1);
+			//$(selected_row).remove();
+			
+			//remove the row from the saved data table
+			$("#saved_data").find("[data-id='"+ local_eid +"']").remove();
+
+			//find checkbox in current data remove checkmark
+			$("#current_data").find("[data-id='"+local_eid+"']").find('.current_data_selector').prop('checked', false);
+		}
+		//--------------------------------controls saved_data and current data
+			
+	}
+	
+	show_hide_saved_data_table();
+
+}
+//--------------------------------deselect all current data
 
 
-//---actions when user clicks on the clear current data button
-$( "#clear_current_data" ).click(function() {
 
+//----------------------------------------remove all current data
+function remove_all_current_data()
+{
     //this destroys the current_data table
     $("#current_data").find("table").remove();
 
     $("#select_all_current_data").css("display","none");
     $("#clear_current_data").css("display","none");
     $("#current_data_number").hide();
-});
-//---actions when user clicks on the clear current data button
+	$("#current_data").hide();
+}
+//----------------------------------------remove all current data
 
 
 //----------------------actions when user clicks on the saved data selector
-  $( '#saved_data' ).on( "click", '.saved_data_selector', function( event ) 
+  $( '#saved_data' ).on( "click", '.saved_data_selector', function() 
     {
 
             var selected_row    = $(this).parent().parent();
@@ -205,10 +252,10 @@ $( "#clear_current_data" ).click(function() {
             var index           = saved_data.indexOf(current_id);
 
             //--------------------------------controls saved_data
-            if(index != -1)
+            if(index !== -1)
             {
-                //remove eid from array                    
-                saved_data.splice(index, 1); 
+                //remove eid from array             
+                saved_data.splice(index, 1);
                 $(selected_row).remove();
 
                 //find checkbox in current data remove checkmark
@@ -220,6 +267,12 @@ $( "#clear_current_data" ).click(function() {
 
     });
 //----------------------actions when user clicks on the saved data selector
+
+//------------------------clear current data
+$( "#clear_current_data" ).click(function() {
+	remove_all_current_data();
+});
+//------------------------clear current data
 
 //---actions when user clicks on the clear saved data button
 $( "#clear_saved_data" ).click(function() {
@@ -239,7 +292,6 @@ $( "#clear_saved_data" ).click(function() {
     saved_data = [];
 
     show_hide_saved_data_table();
-    
 });
 //---actions when user clicks on the clear saved data button
 
@@ -252,7 +304,7 @@ $( "#download_data" ).click(function() {
         var database_types  = [];
         var check_boxes     = $(".db_type_filter");
 
-        $(check_boxes).each(function(index, value) {
+        $(check_boxes).each(function(index) {
 
 
             //get the value if check box is selected
@@ -288,7 +340,7 @@ function enable_disable_download_button()
         }
     });
 
-    if(is_any_check_box_checked == false)
+    if(is_any_check_box_checked === false)
     {
         //if none of the check boxes were checked, then disable download button
         $("#download_data").prop('disabled', true);
@@ -319,9 +371,17 @@ $("#raise_up_download_modal").click(function(){
 });
 //--------------------------------------------------raising up the download modal
 
+//---------------------------------------------remove vertical scroll bar for modal
+$('.modal').on('show.bs.modal', function() {
 
+	$("body").css("overflow-y","hidden");
+	$(this).css("overflow-y","hidden");
+});
 
+$('.modal').on('hide.bs.modal', function() {
 
-
-
+	$("body").css("overflow-y","auto");
+	$(this).css("overflow-y","auto");
+});
+//---------------------------------------------remove vertical scroll bar for modal
 

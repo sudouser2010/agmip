@@ -1,10 +1,10 @@
+
 //---------------------------------------------------------------------------------build table with database data
 function build_table_with_data(data)
 {
     var table = "";
     var local_rows ="";
     var checked ='';
-    var length = '100';
     var local_crid;
     var local_pdate;
     var local_soil_texture;
@@ -15,30 +15,21 @@ function build_table_with_data(data)
     var local_eid;
     var index;
     var value;
+	var default_unknown = "N/A";
 
     for (var i=0; i < data.length; i++)
     {
         value               = data[i];
-        local_crid          = make_none_when_undefined(value["crid"]);
-        local_pdate         = make_none_when_undefined(value["pdate"]);
-        local_soil_texture  = "unlisted";
-        local_institution   = make_none_when_undefined(value["institution"]);
-        local_country       = "unlisted";
-        local_exname        = make_none_when_undefined(value["exname"]);
-        local_agmip_rating  = "unlisted";
-        local_eid           = make_none_when_undefined(value["eid"]);
+        local_crid          = make_default_when_undefined(value["crid"], default_unknown);
+        local_pdate         = make_default_when_undefined(value["pdate"], default_unknown);
+        local_soil_texture  = default_unknown;
+        local_institution   = make_default_when_undefined(value["institution"], default_unknown);
+        local_country       = default_unknown;
+        local_exname        = make_default_when_undefined(value["exname"], default_unknown);
+        local_agmip_rating  = "unrated";
+        local_eid           = make_default_when_undefined(value["eid"], default_unknown);
+		current_data.push(local_eid);
 
-
-        /*-------------------------truncate strings
-        local_crid          =local_crid.substring(0,length);
-        local_pdate         =local_pdate.substring(0,length);
-        local_soil_texture  =local_soil_texture.substring(0,length);
-        local_institution   =local_institution.substring(0,length);
-        local_country       =local_country.substring(0,length);
-        local_exname        =local_exname.substring(0,length);
-        local_agmip_rating  =local_agmip_rating.substring(0,length);
-        local_eid           =local_eid.substring(0,length);
-        -------------------------truncate strings*/
 
         //----------------------------------------------check control
         if(is_in_array( saved_data, local_eid))
@@ -61,7 +52,6 @@ function build_table_with_data(data)
         local_rows = local_rows + "<td data-type='country' >"+      local_country  +"</td>";
         local_rows = local_rows + "<td data-type='exname' >"+       local_exname +"</td>";
         local_rows = local_rows + "<td data-type='rating' >"+       local_agmip_rating +"</td>";
-        local_rows = local_rows + "<td data-type='eid' >"+          local_eid +"</td>";
 
         table = table + "<tr data-id ='"+local_eid+"'>"+ local_rows +"</tr>";
         local_rows = "";
@@ -69,7 +59,7 @@ function build_table_with_data(data)
     }
 
     var top_row =	'<tr> \
-      					<th class="headerTbl ">Selected</th> \
+      					<th class="headerTbl "><input id="select_all_current_data" type="checkbox" ></th> \
       					<th class="headerTbl ">Crop</th> \
       					<th class="headerTbl ">Planting Date</th> \
       					<th class="headerTbl ">Soil Texture</th> \
@@ -77,15 +67,17 @@ function build_table_with_data(data)
       					<th class="headerTbl ">Country</th> \
       					<th class="headerTbl ">EXNAME</th> \
       					<th class="headerTbl ">AgMIP Rating</th> \
-      					<th class="headerTbl ">eID</th> \
       				</tr>';
 
 
     var table   = "<div class='agmipTable'><table class='table table-striped table-hover noWrap'>" + top_row + table + "</table></div>";
     $("#current_data").html(table);
 
-    $("#clear_current_data").show();
-    $("#select_all_current_data").show();
+	//shows current data
+	$("#current_data").show();
+	
+   $("#clear_current_data").show();
+   $("#select_all_current_data").show();
 
 
     //if the current_data_container is toggled, then un toggle it
@@ -102,7 +94,8 @@ function build_table_with_data(data)
     $('#current_data_number').show();
     $('#current_data_number').find("b").text(data.length);
 
-
+	//moves view down to current data container. Let's user know that something changed
+	$('html, body').animate({scrollTop: $("#current_data_container").offset().top}, 1200);
 
 }
 //---------------------------------------------------------------------------------build table with database data
@@ -112,12 +105,10 @@ function show_hide_saved_data_table()
 {
     if( saved_data.length > 0)
     {   
-        $("#saved_data").find("table").show();
-
+		//shows saved data
+		$("#saved_data").show();
+		
         $(".saved_data_button").show();
-        
-        //$("#clear_saved_data").show();
-        //$("#download_data").show();
 
         //if the saved_data_container is toggled, then un toggle it
         //information on whether the saved_data_container is toggled is stored else where
@@ -135,13 +126,11 @@ function show_hide_saved_data_table()
     }
     else
     {
-        $("#saved_data").find("table").hide();
-
-        //$("#clear_saved_data").hide();
-        //$("#download_data").hide();
+		$("#saved_data").hide();
         $(".saved_data_button").hide();
 
         $('#saved_data_number').hide();
+		$("#select_all_current_data").prop('checked', false);
 
     }
 }
@@ -150,11 +139,11 @@ function show_hide_saved_data_table()
 
 
 //----------------------------------------------used to set undefined values to none
-function make_none_when_undefined(variable)
+function make_default_when_undefined(variable, default_variable)
 {
     if(typeof variable === 'undefined')
     {
-       return "none";
+       return default_variable;
     }
     return variable;
 }
