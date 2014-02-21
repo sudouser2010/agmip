@@ -6,7 +6,7 @@ $(".current_data_selector").click(function(){
 	
 		//when deselecting a checkbox
 		//make all checkboxes enabled
-		$(".current_data_selector").prop('disabled', false)
+		$(".current_data_selector").prop('disabled', false);
 		$("#doneBtn").addClass('disabled');
 	}
 	else{
@@ -16,12 +16,12 @@ $(".current_data_selector").click(function(){
 		var check_boxes     = $(".current_data_selector");
 		$("#doneBtn").removeClass('disabled');
 
-		$(check_boxes).each(function(index, value) {
+		$(check_boxes).each(function(index) {
 
 		//checks if any checkbox is not selected, then disable it
 		if( !$(this).is(":checked") )
 		{
-			$(check_boxes[index] ).prop('disabled', true)
+			$(check_boxes[index] ).prop('disabled', true);
 		}
 
 		});

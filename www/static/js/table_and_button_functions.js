@@ -41,7 +41,7 @@ function build_current_data(data)
 
 		
 		//----if this eid is not in saved data make checkmark false, otherwise make checkmark true
-		if( vm.findIndex(eid, vm.saved_data()) == -1)
+		if( vm.findIndex(eid, vm.saved_data()) === -1)
 		{
 			checked = false;
 		}else{

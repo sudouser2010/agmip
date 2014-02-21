@@ -25,13 +25,7 @@ function render_map_initially()
 {
     //-------defines tile layers for map
     var tile_layer1 = L.tileLayer( "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg", 
-    { attribution : '', subdomains: '1234', });
-
-    var tile_layer2 = L.tileLayer( "http://{s}.tile.osm.org/{z}/{x}/{y}.png", 
-    { attribution : '', });
-
-    var tile_layer3 = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/22677/256/{z}/{x}/{y}.png', 
-    { attribution: '', key: 'BC9A493B41014CAABB98F0471D759707',});
+    { attribution : '', subdomains: '1234'});
     //-------defines tile layers for map
 
     //-------sets map parameters
@@ -39,7 +33,7 @@ function render_map_initially()
         {
         maxZoom: 13,
         minZoom: 2,
-        maxBounds:[[-90,-180.0],[90,180.0]], 
+        maxBounds:[[-90,-180.0],[90,180.0]]
         }
     ).setView([15, 0], 1);
     //-------sets map parameters
@@ -56,6 +50,14 @@ function render_map_initially()
     return local_map;
 }
 //---------------------------renders map initially
+
+//--------------------------------------------------------------------------------------- raising marker popup
+function raise_marker_popup(location, geo_hash, count, marker_popup, map)
+{
+	//this function is used by the create markers function
+	marker_popup.setLatLng(location).openOn(map).setContent("<b style='color:#bb382b;'>Geohash Point</b> <br><button type='button' data-geohashes='"+JSON.stringify([geo_hash])+"' data-eid_count='"+ count +"'class='btn btn-primary  borRad obtain_data_from_cluster_or_marker' >Obtain Data</button> <br>has "+ count +' experiments');
+}
+//--------------------------------------------------------------------------------------- raising marker popup
 
 //-----------------------creates markers and creates pop ups for markers
 function create_markers_for_map(location_data)
@@ -80,7 +82,7 @@ function create_markers_for_map(location_data)
         //when the user right clicks on each makrer, show the following popup
         local_marker.on('contextmenu', function(event) 
         {
-            marker_popup.setLatLng(event.latlng).openOn(map).setContent("<b style='color:#bb382b;'>Geohash Point</b> <br><button type='button' data-geohashes='"+JSON.stringify([this.options.geohash])+"' data-eid_count='"+ this.options.count +"'class='btn btn-primary  borRad obtain_data_from_cluster_or_marker' >Obtain Data</button> <br>has "+ this.options.count +' experiments');
+			raise_marker_popup(event.latlng, this.options.geohash, this.options.count, marker_popup, map);
         });
 
         markers.push(local_marker);
@@ -94,6 +96,13 @@ function create_markers_for_map(location_data)
 }
 //-----------------------creates markers and creates pop ups for markers
 
+//--------------------------------------------------------------------------------------- raising cluster popup
+function raise_cluster_popup(location, geo_hashes, eid_count, cluster_popup, map)
+{
+	//this function is used by the create clusters function
+	cluster_popup.setLatLng(location).openOn(map).setContent("<b class='blueTxt'>Cluster of Geohashes</b><br><button type='button' data-geohashes='"+JSON.stringify(geo_hashes)+"' data-eid_count='"+ eid_count +"' class='btn btn-primary  borRad obtain_data_from_cluster_or_marker'>Obtain Data</button> <br> has "+ eid_count +" experiments");
+}
+//--------------------------------------------------------------------------------------- raising cluster popup
 
 //----------------------------------------------creates pop ups for clusters
 function create_clusters_for_map()
@@ -119,8 +128,7 @@ function create_clusters_for_map()
             eid_count = eid_count + parseFloat(markers_in_cluster[i].options.count);                        
         }
 
-
-        cluster_popup.setLatLng(event.latlng).openOn(map).setContent("<b class='blueTxt'>Cluster of Geohashes</b><br><button type='button' data-geohashes='"+JSON.stringify(geo_hashes)+"' data-eid_count='"+ eid_count +"' class='btn btn-primary  borRad obtain_data_from_cluster_or_marker'>Obtain Data</button> <br> has "+ eid_count +" experiments");
+		raise_cluster_popup(event.latlng, geo_hashes, eid_count, cluster_popup, map);
 
      });
 }
@@ -130,15 +138,6 @@ function create_clusters_for_map()
 //----------------------------------------------------------------------------------place_markers_and_clusters_on_map
 function place_markers_and_clusters_on_map(location_data)
 {
-
-    var local_lat;
-    var local_long;
-    var geo_hash;       
-    var count;
-    var local_marker;
-    var marker_popup  = L.popup({offset:L.point(0, -32)});
-    var cluster_popup = L.popup({offset:L.point(0, -10)});
-
     create_markers_for_map(location_data);
     create_clusters_for_map();
 

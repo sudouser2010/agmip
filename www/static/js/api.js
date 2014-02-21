@@ -1,3 +1,6 @@
+//place the server url here. make sure to append "http://" to the beginning of url 
+var api_url = "http://199.231.188.53:60000/api/";  
+
 function obtain_initial_map_population()
 {
 	$('#spinner').modal('show');
@@ -7,13 +10,12 @@ function obtain_initial_map_population()
     url:        api_url, 
     data:       { "populate" : "True"},
     cache:      true,
-    dataType:   "json",
+    dataType:   "json"
                }; 
 
     $.ajax( options)
     .done( function(result)
     {
-        //alert(JSON.stringify(result));
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
     }).fail(function()
 	{
@@ -37,7 +39,7 @@ function obtain_specific_crop_map_population(crop_type)
     url:        api_url,
     data:       { "crop_type" : crop_type},
     cache:      true,
-    dataType:   "json",
+    dataType:   "json"
                }; 
 	
     $.ajax( options)
@@ -77,7 +79,7 @@ function retrieve_data(crop_type, geohashes, eid_count)
         url:        api_url,
         data:       { "crop_type": crop_type, "geohashes": geohashes},
         cache:      true,
-        dataType:   "json",
+        dataType:   "json"
                    }; 
 				   
         $.ajax( options )
@@ -111,7 +113,7 @@ function retrieve_database(database_types, eids)
     url:        api_url,
     data:       { "database_types": database_types, "eids": eids},
     cache:      true,
-    dataType:   "json",
+    dataType:   "json"
                }; 
  
     $.ajax( options )
@@ -131,14 +133,6 @@ function retrieve_database(database_types, eids)
 
 
 
-//For testing js code and api
-//place the server url here. make sure to append "http://" to the beginning of url 
-var api_url = "http://199.231.188.53:60000/api/";  //"http://api.agmip.org/cropdb/1/cache/location",//api_url,
-
-//obtain_initial_map_population();
-//obtain_specific_crop_map_population("COT");
-//retrieve_data("RIC", ['w4x4mf4','wdw2b1p','wdvcr4h']);
-//retrieve_database(["AMCO", "DOME"], ['w4x4mf4','wdw2b1p','wdvcr4h']);
 
 
 

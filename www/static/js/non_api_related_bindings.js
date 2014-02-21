@@ -18,7 +18,7 @@ $( "#download_data" ).click(function() {
         var check_boxes     = $(".db_type_filter");
 		var eids_from_saved_data = [];
 
-        $(check_boxes).each(function(index, value) {
+        $(check_boxes).each(function(index) {
 
 
             //get the value if check box is selected
@@ -54,7 +54,7 @@ function enable_disable_download_button()
         }
     });
 
-    if(is_any_check_box_checked == false)
+    if(is_any_check_box_checked === false)
     {
         //if none of the check boxes were checked, then disable download button
         $("#download_data").prop('disabled', true);

@@ -97,7 +97,7 @@ function all_experiments() {
 			index = self.findIndex(current_data_eid, self.saved_data());
 			self.updateCheckMark(i, true);	
 
-			if(index == -1)
+			if(index === -1)
 			{
 				//the current_data eid is not in the array then push it into saved_data
 				self.saved_data.push( self.current_data()[i] );
@@ -134,7 +134,7 @@ function all_experiments() {
 			current_data_eid = self.current_data()[i]["eid"];							
 			saved_data_index = self.findIndex(current_data_eid, self.saved_data());
 			
-			if(saved_data_index != -1)
+			if(saved_data_index !== -1)
 			{
 				//remove element from saved data array
 				self.saved_data.removeValueAtIndex(saved_data_index);		
@@ -239,7 +239,7 @@ function all_experiments() {
 		
 
 		self.toggleCheckMark(current_data_index);											//(3)
-		if( saved_data_index == -1)		//(4a)
+		if( saved_data_index === -1)		//(4a)
 		{
 			datum = self.current_data()[current_data_index];								//(5a)
 			self.saved_data.push(datum);													//(6a)	
@@ -353,7 +353,7 @@ function all_experiments() {
 		
 		for( var i=0; i < array.length; i++)
 		{
-			if(eid == array[i]["eid"])
+			if(eid === array[i]["eid"])
 			{
 				return i;
 			}
