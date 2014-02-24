@@ -1,5 +1,7 @@
 function obtain_initial_map_population()
 {
+	$('#spinner').modal('show');
+	
     options = {
     type:       "GET",
     url:        api_url, 
@@ -13,7 +15,14 @@ function obtain_initial_map_population()
     {
         //alert(JSON.stringify(result));
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
-    });
+    }).fail(function()
+	{
+		$("#error_message").text("Error: Failed To Populate Map");
+		$('#alertModal').modal('show');
+		
+	}).always(function(){
+		$('#spinner').modal('hide');
+	});
 
 
 }
@@ -21,6 +30,8 @@ function obtain_initial_map_population()
 
 function obtain_specific_crop_map_population(crop_type)
 {
+	$('#spinner').modal('show');
+	
     options = {
     type:       "GET",
     url:        api_url,
@@ -28,12 +39,19 @@ function obtain_specific_crop_map_population(crop_type)
     cache:      true,
     dataType:   "json",
                }; 
-
+	
     $.ajax( options)
     .done( function(result)
     {
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
-    });
+    }).fail(function()
+	{
+		$("#error_message").text("Error: Search Operation Has Failed");
+		$('#alertModal').modal('show');
+		
+	}).always(function(){
+		$('#spinner').modal('hide');
+	});
 
 }
 
@@ -43,12 +61,15 @@ function retrieve_data(crop_type, geohashes, eid_count)
 
     max_eids = 50;
     if( eid_count > max_eids)
-    {
-        alert("Data Size Is Too Large. More Than Data Points "+max_eids+" Selected.");
-        alert("Please specify data by using filter or by zooming in.");       
+    {   
+		$("#error_message").html("Data Size Is Too Large. More Than Data Points "+max_eids+" Selected. <br>Please Specify Data By Using Filter Or By Zooming In.");
+		$('#alertModal').modal('show');		
     }
     else
     {
+	
+		$('#spinner').modal('show');
+	
         geohashes = JSON.stringify(geohashes);
 
         options = {
@@ -58,12 +79,19 @@ function retrieve_data(crop_type, geohashes, eid_count)
         cache:      true,
         dataType:   "json",
                    }; 
-
+				   
         $.ajax( options )
         .done( function(result)
         {
             $("#map").trigger("build_table_with_data", {'data': result });
-        });
+        }).fail(function()
+		{
+			$("#error_message").text("Error: Failed to Obtain Data");
+			$('#alertModal').modal('show');
+			
+		}).always(function(){
+			$('#spinner').modal('hide');
+		});
     }
 
 
@@ -72,7 +100,8 @@ function retrieve_data(crop_type, geohashes, eid_count)
 
 function retrieve_database(database_types, eids)
 {
-
+	$('#spinner').modal('show');
+	
     eids           = JSON.stringify(eids);
     database_types = JSON.stringify(database_types);
 
@@ -83,12 +112,19 @@ function retrieve_database(database_types, eids)
     cache:      true,
     dataType:   "json",
                }; 
-
+ 
     $.ajax( options )
     .done( function(result)
     {
         $("#map").trigger("prompt_user_for_download", result );
-    });
+    }).fail(function()
+	{
+		$("#error_message").text("Error: Failed to Download Database");
+		$('#alertModal').modal('show');
+		
+	}).always(function(){
+		$('#spinner').modal('hide');
+	});
 
 }
 

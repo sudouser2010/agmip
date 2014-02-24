@@ -4,6 +4,7 @@ var map           = render_map_initially();
 var markerLayer;
 var markers       = [];
 var saved_data    = [];
+var current_data  = [];
 
 /*
     - markers will be drawn on the markerLayer.
