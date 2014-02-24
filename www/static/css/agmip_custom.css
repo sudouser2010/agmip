@@ -1,5 +1,6 @@
 /* Homepage Styles */
 
+<<<<<<< HEAD
 .homepage_btn{
   font-size:12px;
   color:#ffffff;
@@ -16,6 +17,8 @@
   color:#ffffff !important;
   text-decoration:none !important;
 }
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 .headers_bg{
  background-image:url('images/header_divider.png');
  height:15px;
@@ -29,7 +32,11 @@ background-position: center bottom !important;
 .homepageTitleSecTxt{
 	color:#97a5a6 !important;
 	font-weight:normal;
+<<<<<<< HEAD
 	font-size:18px !important;  
+=======
+	font-size:21px !important;  
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
   }
 .homepage_text{
   color:#97a5a6 !important; 
@@ -72,6 +79,7 @@ color:#f1c40f !important;
 
 
 /* Upload page Styles*/
+<<<<<<< HEAD
 .disabled
 {
 pointer-events: none;
@@ -80,6 +88,8 @@ opacity: 0.65;
 box-shadow: none;
 }
 
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 .numTxt{
 font-size:18px;
 float:right;
@@ -143,15 +153,21 @@ font-weight:normal;
       		padding-top:15px;
       		padding-bottom:15px;
       }
+<<<<<<< HEAD
       .alertHead{
     background:#f1f1f1 !important;
      color:#bb382b !important;
       }
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 /* Login Page Styles*/
 
 .loginBtn{
 padding-top:4px;
+<<<<<<< HEAD
 cursor: pointer;
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 }
 .logHt{
 min-height:55px;
@@ -213,6 +229,7 @@ padding-left:2px;
 }
 
 
+<<<<<<< HEAD
 /* Modal Styles*/
 
 .bord0{
@@ -264,6 +281,9 @@ max-height:300px !important;
 overflow-y:scroll !important;
 overflow-x:scroll !important;
 }
+=======
+/* Search Styles*/
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 .headerTbl{
 background:#97a5a6 !important;
 /*border:none !important;*/
@@ -272,6 +292,7 @@ background:#97a5a6 !important;
 .collapseBtn{
 cursor:pointer;
 color:#97a5a6 !important;
+<<<<<<< HEAD
 font-family: FontAwesome;
 text-decoration:none !important;
 cursor: pointer;
@@ -288,6 +309,10 @@ a.collapseBtn:before
     display:inline;
     width:15px;
 }
+=======
+}
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 .resultsNum{
 font-size:30px;
 color:#24a95c;
@@ -304,6 +329,7 @@ margin-top:-11px;
 .ShowDataTxt{
 padding-bottom:10px !important;
 }
+<<<<<<< HEAD
 /* Leaflet styles*/
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
@@ -328,6 +354,10 @@ margin-right:20px;
 .floNone{
 float:none !important;
 }
+=======
+
+/*Generic Styles*/
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 .borRad{
 border-radius:0px !important;
 }
@@ -360,7 +390,10 @@ font-size:14px;
        font-size:16px;
        position:relative;
        top:-8px;
+<<<<<<< HEAD
 	   cursor: pointer;
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
        
 
       }
@@ -373,6 +406,7 @@ font-size:14px;
        border-radius:0px;
        border:none !important;
 }
+<<<<<<< HEAD
 .helpBtnBg:hover{
           background: #236b9b !important;
 }
@@ -380,6 +414,12 @@ font-size:14px;
 position:relative;
 right:-10px;
 top:5px;
+=======
+.searchPos{
+position:relative;
+right:-10px;
+top:10px;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 }
 .rghtNeg5{
 position:relative;
@@ -388,7 +428,10 @@ right:-5px;
 .searchBox{
 border-radius:0px !important;
 }
+<<<<<<< HEAD
 .
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 .helpBtnBg:hover{
        color: #ffffff !important;
        background: #236b9b !important;
@@ -401,7 +444,11 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+<<<<<<< HEAD
 	   cursor: pointer;
+=======
+       cursor:pointer;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
       }
 .blueBtn:hover{
        color: #ffffff !important;
@@ -415,7 +462,11 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+<<<<<<< HEAD
 	   cursor: pointer;
+=======
+       cursor:pointer;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
       }
 .redBtn{
        color: #ffffff !important;
@@ -424,7 +475,10 @@ border-radius:0px !important;
        height:35px;
        margin-top:7px !important;
        text-align:center;
+<<<<<<< HEAD
 	   cursor: pointer;
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
       }
 .redBtn:hover{
        color: #ffffff !important;
@@ -434,7 +488,10 @@ border-radius:0px !important;
        color: #ffffff !important;
        background: #219050 !important;
       }
+<<<<<<< HEAD
       
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 .greenBtnText{
        text-align:center;
        position:relative;
@@ -448,7 +505,11 @@ border-radius:0px !important;
        margin-top:7px !important;
        border-radius:0px;
        border:none !important;
+<<<<<<< HEAD
 	   cursor: pointer;
+=======
+       cursor:pointer;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
       }
 .searchBtn:hover{
        color: #ffffff !important;
@@ -457,9 +518,15 @@ border-radius:0px !important;
 .greenSearchText{
        text-align:center;
        position:relative;
+<<<<<<< HEAD
        top:-7px !important;
        left:auto;
        font-size:18px;
+=======
+       top:-7px;
+       left:auto;
+       font-size:24;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
       }
 .blueBtnText{
        text-align:center;
@@ -483,18 +550,26 @@ border-bottom-color: #000000 !important;
 }
 .dropdown-menu > li > a:hover{
 background:#48972e !important;
+<<<<<<< HEAD
 color:#ffffff !important;
+=======
+color:#fff;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 }
 @media (min-width: 1024px)and (max-width:1170px) {
 .soilText{
 position:relative;
 top:10px;
 }
+<<<<<<< HEAD
   .agmipSearch{
   	font-size:10px !important;
   }
 }
 
+=======
+}
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 @media (min-width: 769px) and (max-width:990px) {
 .soils {
 font-size:10px !important;
@@ -510,6 +585,7 @@ font-size:10px !important;
 width:212px;
 }
 }
+<<<<<<< HEAD
 @media (max-width: 1024px) {
 <!-- Fixes for the -->
 .searchPageTitle{
@@ -540,6 +616,15 @@ width:212px;
 .greenBtn{
 padding-bottom:17px;
 cursor: pointer;
+=======
+@media (max-width: 768px) {
+.mainImage{
+	width:70%;
+	}
+	
+.greenBtn{
+padding-bottom:17px;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 }
 
 .soils{
@@ -586,4 +671,8 @@ display:inline !important;
 #footer{
 height:auto !important;
 }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01

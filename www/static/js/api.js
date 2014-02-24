@@ -1,7 +1,10 @@
 function obtain_initial_map_population()
 {
+<<<<<<< HEAD
 	$('#spinner').modal('show');
 	
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     options = {
     type:       "GET",
     url:        api_url, 
@@ -13,6 +16,7 @@ function obtain_initial_map_population()
     $.ajax( options)
     .done( function(result)
     {
+<<<<<<< HEAD
         //alert(JSON.stringify(result));
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
     }).fail(function()
@@ -23,6 +27,11 @@ function obtain_initial_map_population()
 	}).always(function(){
 		$('#spinner').modal('hide');
 	});
+=======
+        // alert(JSON.stringify(result));
+        $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
+    });
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 
 
 }
@@ -30,8 +39,11 @@ function obtain_initial_map_population()
 
 function obtain_specific_crop_map_population(crop_type)
 {
+<<<<<<< HEAD
 	$('#spinner').modal('show');
 	
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     options = {
     type:       "GET",
     url:        api_url,
@@ -39,11 +51,16 @@ function obtain_specific_crop_map_population(crop_type)
     cache:      true,
     dataType:   "json",
                }; 
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     $.ajax( options)
     .done( function(result)
     {
         $("#map").trigger("place_markers_and_clusters_on_map", {'location_data': result});
+<<<<<<< HEAD
     }).fail(function()
 	{
 		$("#error_message").text("Error: Search Operation Has Failed");
@@ -52,6 +69,9 @@ function obtain_specific_crop_map_population(crop_type)
 	}).always(function(){
 		$('#spinner').modal('hide');
 	});
+=======
+    });
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 
 }
 
@@ -61,6 +81,7 @@ function retrieve_data(crop_type, geohashes, eid_count)
 
     max_eids = 50;
     if( eid_count > max_eids)
+<<<<<<< HEAD
     {   
 		$("#error_message").html("Data Size Is Too Large. More Than Data Points "+max_eids+" Selected. <br>Please Specify Data By Using Filter Or By Zooming In.");
 		$('#alertModal').modal('show');		
@@ -70,6 +91,14 @@ function retrieve_data(crop_type, geohashes, eid_count)
 	
 		$('#spinner').modal('show');
 	
+=======
+    {
+        alert("Data Size Is Too Large. More Than Data Points "+max_eids+" Selected.");
+        alert("Please specify data by using filter or by zooming in.");       
+    }
+    else
+    {
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
         geohashes = JSON.stringify(geohashes);
 
         options = {
@@ -79,11 +108,16 @@ function retrieve_data(crop_type, geohashes, eid_count)
         cache:      true,
         dataType:   "json",
                    }; 
+<<<<<<< HEAD
 				   
+=======
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
         $.ajax( options )
         .done( function(result)
         {
             $("#map").trigger("build_table_with_data", {'data': result });
+<<<<<<< HEAD
         }).fail(function()
 		{
 			$("#error_message").text("Error: Failed to Obtain Data");
@@ -92,6 +126,9 @@ function retrieve_data(crop_type, geohashes, eid_count)
 		}).always(function(){
 			$('#spinner').modal('hide');
 		});
+=======
+        });
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     }
 
 
@@ -100,8 +137,12 @@ function retrieve_data(crop_type, geohashes, eid_count)
 
 function retrieve_database(database_types, eids)
 {
+<<<<<<< HEAD
 	$('#spinner').modal('show');
 	
+=======
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     eids           = JSON.stringify(eids);
     database_types = JSON.stringify(database_types);
 
@@ -112,11 +153,16 @@ function retrieve_database(database_types, eids)
     cache:      true,
     dataType:   "json",
                }; 
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     $.ajax( options )
     .done( function(result)
     {
         $("#map").trigger("prompt_user_for_download", result );
+<<<<<<< HEAD
     }).fail(function()
 	{
 		$("#error_message").text("Error: Failed to Download Database");
@@ -125,6 +171,9 @@ function retrieve_database(database_types, eids)
 	}).always(function(){
 		$('#spinner').modal('hide');
 	});
+=======
+    });
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 
 }
 

@@ -304,7 +304,11 @@ html {
 
 body {
   font-family: Century Gothic, sans-serif !important;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 12px;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
   line-height: 1.428571429;
   color: #333333;
   background-color: #ffffff;
@@ -812,11 +816,15 @@ pre code {
 
 @media (min-width: 768px) {
   .container {
+<<<<<<< HEAD
    /* width: 750px;*/
    width:100%;
   }
   .searchPageTitle {
   width:28% !important;
+=======
+    width: 750px;
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
   }
 }
 
@@ -824,9 +832,12 @@ pre code {
   .container {
     width: 970px;
   }
+<<<<<<< HEAD
     .searchPageTitle {
   width:40% !important;
   }
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 }
 
 @media (min-width: 1200px) {

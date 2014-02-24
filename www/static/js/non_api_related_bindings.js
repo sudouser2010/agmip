@@ -1,5 +1,6 @@
 
 //----------------------obtains data by right clicking on cluster or point
+<<<<<<< HEAD
 $( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function() 
 {
     var geohashes = $(this).data("geohashes");
@@ -7,6 +8,16 @@ $( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function()
     map.closePopup();
 
     retrieve_data('none', geohashes, eid_count);
+=======
+$( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function( event ) 
+{
+    var geohashes = $(this).data("geohashes"); 
+    var eid_count = $(this).data("eid_count"); 
+    map.closePopup();
+
+    retrieve_data('none', geohashes, eid_count);
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 });
 //----------------------obtains data by right clicking on cluster or point
 
@@ -14,7 +25,11 @@ $( '#map' ).on( "click", '.obtain_data_from_cluster_or_marker', function()
 //-----------------------------------------------apply filter
 $( "#apply_filter" ).click(function() 
 {
+<<<<<<< HEAD
 	map.closePopup();
+=======
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     var crop_id   = $("#crop_filter").val();
     obtain_specific_crop_map_population(crop_id);
 
@@ -43,7 +58,11 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
     local_agmip_rating  = $(selected_row).find("[data-type='rating']").text();
     local_eid           = $(selected_row).find("[data-type='eid']").text();
 
+<<<<<<< HEAD
     var row     =   "<td data-type='selector'>" + "<span class='saved_data_selector glyphicon glyphicon-remove'></span>" + "</td>";
+=======
+    var row     =   "<td data-type='selector'>" + "<input class='saved_data_selector' type='checkbox' >" + "</td>";
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 
     row = row + "<td data-type='crid' >"+         local_crid  +"</td>";
     row = row + "<td data-type='pdate' >"+        local_pdate +"</td>";
@@ -52,11 +71,19 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
     row = row + "<td data-type='country' >"+      local_country  +"</td>";
     row = row + "<td data-type='exname' >"+       local_exname +"</td>";
     row = row + "<td data-type='rating' >"+       local_agmip_rating +"</td>";
+<<<<<<< HEAD
+=======
+    row = row + "<td data-type='eid' >"+          local_eid +"</td>";
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 
     row = "<tr data-id ='"+current_id+"'>"+ row +"</tr>";  
 
     //appends row after the last row
+<<<<<<< HEAD
     $("#saved_data").find("table tr:last").after(row);
+=======
+    $("#saved_data").find("table tr:last").after(row) 
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 }
 //----------------------------------generate saved_data row from a current data row
 
@@ -64,7 +91,11 @@ function generate_saved_data_row_from_current_data_row(selected_row, current_id)
 
 
 //----------------------actions when user clicks on the current data selector
+<<<<<<< HEAD
 $( '#current_data' ).on( "click", '.current_data_selector', function() 
+=======
+$( '#current_data' ).on( "click", '.current_data_selector', function( event ) 
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 {
         var selected_row    = $(this).parent().parent();
         /*
@@ -78,6 +109,7 @@ $( '#current_data' ).on( "click", '.current_data_selector', function()
         var index           = saved_data.indexOf(current_id);
 
         //--------------------------------controls saved_data
+<<<<<<< HEAD
         if(index === -1)
         {
             //add eid to array if eid is not in array already
@@ -85,12 +117,25 @@ $( '#current_data' ).on( "click", '.current_data_selector', function()
 
             //-----------------appends rows to saved table
             generate_saved_data_row_from_current_data_row(selected_row, current_id);
+=======
+        if(index == -1)
+        {
+            //add eid to array if eid is not in array already
+            saved_data.push( current_id );    
+
+            //-----------------appends rows to saved table
+            generate_saved_data_row_from_current_data_row(selected_row, current_id);        
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
             //-----------------appends rows to saved table     
         }
         else
         {
             //remove eid from array                    
+<<<<<<< HEAD
             saved_data.splice(index, 1);
+=======
+            saved_data.splice(index, 1); 
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
             $("#saved_data").find("[data-id='"+current_id+"']").remove();
         }
         //--------------------------------controls saved_data
@@ -132,6 +177,7 @@ $( "#obtain_data" ).click(function() {
 });
 //--------------------------------------------obtains data by clicking obtain data button
 
+<<<<<<< HEAD
 //--------------------------------------------------------when user hits checkbox
 $( '#current_data' ).on( "click", '#select_all_current_data', function() 
 {
@@ -153,10 +199,17 @@ $( '#current_data' ).on( "click", '#select_all_current_data', function()
 //----------------------------------------select all current data
 function select_all_current_data()
 {
+=======
+
+//----------------------actions when user clicks on the select all current data button
+$( "#select_all_current_data" ).click(function() {
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     var rows = $("#current_data table").find("tr");
     var selected_row;
     var current_id;
     var index;
+<<<<<<< HEAD
     var name;
 
 
@@ -166,21 +219,46 @@ function select_all_current_data()
 		//the first row is the title for columns, so skip it
         if(i > 0)
         {
+=======
+
+    var name;
+    var institution;
+    var row;
+
+
+    $(rows).each(function(i, value) 
+    {
+
+
+        if(i > 0) //the first row is the title for columns, so skip it
+        {  
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 
             selected_row    = rows[i];
             current_id      = $(selected_row).data('id');
 
             index           = saved_data.indexOf(current_id);
 
+<<<<<<< HEAD
             if(index === -1)
+=======
+            if(index == -1)
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
             {
                 $(selected_row).find(".current_data_selector").prop('checked', true);
 
                 //add eid to array if eid is not in array already
+<<<<<<< HEAD
                 saved_data.push( current_id );
 
                 //-----------------appends rows to saved table
                 generate_saved_data_row_from_current_data_row(selected_row, current_id);
+=======
+                saved_data.push( current_id );    
+
+                //-----------------appends rows to saved table
+                generate_saved_data_row_from_current_data_row(selected_row, current_id);          
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
                 //-----------------appends rows to saved table     
             }
 
@@ -190,6 +268,7 @@ function select_all_current_data()
         }
 
     });
+<<<<<<< HEAD
 	
 }
 //----------------------------------------select all current data
@@ -232,12 +311,23 @@ function deselect_all_current_data()
 //----------------------------------------remove all current data
 function remove_all_current_data()
 {
+=======
+
+});
+//----------------------actions when user clicks on the select all current data button
+
+
+//---actions when user clicks on the clear current data button
+$( "#clear_current_data" ).click(function() {
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     //this destroys the current_data table
     $("#current_data").find("table").remove();
 
     $("#select_all_current_data").css("display","none");
     $("#clear_current_data").css("display","none");
     $("#current_data_number").hide();
+<<<<<<< HEAD
 	$("#current_data").hide();
 }
 //----------------------------------------remove all current data
@@ -245,6 +335,14 @@ function remove_all_current_data()
 
 //----------------------actions when user clicks on the saved data selector
   $( '#saved_data' ).on( "click", '.saved_data_selector', function() 
+=======
+});
+//---actions when user clicks on the clear current data button
+
+
+//----------------------actions when user clicks on the saved data selector
+  $( '#saved_data' ).on( "click", '.saved_data_selector', function( event ) 
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     {
 
             var selected_row    = $(this).parent().parent();
@@ -252,10 +350,17 @@ function remove_all_current_data()
             var index           = saved_data.indexOf(current_id);
 
             //--------------------------------controls saved_data
+<<<<<<< HEAD
             if(index !== -1)
             {
                 //remove eid from array             
                 saved_data.splice(index, 1);
+=======
+            if(index != -1)
+            {
+                //remove eid from array                    
+                saved_data.splice(index, 1); 
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
                 $(selected_row).remove();
 
                 //find checkbox in current data remove checkmark
@@ -268,12 +373,15 @@ function remove_all_current_data()
     });
 //----------------------actions when user clicks on the saved data selector
 
+<<<<<<< HEAD
 //------------------------clear current data
 $( "#clear_current_data" ).click(function() {
 	remove_all_current_data();
 });
 //------------------------clear current data
 
+=======
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 //---actions when user clicks on the clear saved data button
 $( "#clear_saved_data" ).click(function() {
 
@@ -292,6 +400,10 @@ $( "#clear_saved_data" ).click(function() {
     saved_data = [];
 
     show_hide_saved_data_table();
+<<<<<<< HEAD
+=======
+    
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 });
 //---actions when user clicks on the clear saved data button
 
@@ -304,7 +416,11 @@ $( "#download_data" ).click(function() {
         var database_types  = [];
         var check_boxes     = $(".db_type_filter");
 
+<<<<<<< HEAD
         $(check_boxes).each(function(index) {
+=======
+        $(check_boxes).each(function(index, value) {
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 
 
             //get the value if check box is selected
@@ -340,7 +456,11 @@ function enable_disable_download_button()
         }
     });
 
+<<<<<<< HEAD
     if(is_any_check_box_checked === false)
+=======
+    if(is_any_check_box_checked == false)
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
     {
         //if none of the check boxes were checked, then disable download button
         $("#download_data").prop('disabled', true);
@@ -371,6 +491,7 @@ $("#raise_up_download_modal").click(function(){
 });
 //--------------------------------------------------raising up the download modal
 
+<<<<<<< HEAD
 //---------------------------------------------remove vertical scroll bar for modal
 $('.modal').on('show.bs.modal', function() {
 
@@ -384,4 +505,11 @@ $('.modal').on('hide.bs.modal', function() {
 	$(this).css("overflow-y","auto");
 });
 //---------------------------------------------remove vertical scroll bar for modal
+=======
+
+
+
+
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
 

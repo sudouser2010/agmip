@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <!DOCTYPE html>
 <html lang="en">
@@ -383,3 +384,360 @@
 
 
 
+=======
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png"> -->
+
+    <title>AgMIP Search Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/css/agmip_custom.css" rel="stylesheet">
+    <link href="static/css/bootstrap.css" rel="stylesheet">
+    <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/css/footer.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    
+
+    <!-- ~~~~~~~~~~~~Jquery~~~~~~~~~~~~ -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <!-- ~~~~~~~~~~~~Leaflet~~~~~~~~~~~~ -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
+    <![endif]-->
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
+
+    <!-- ~~~~~~~~~~~~Leaflet Clustering~~~~~~~~~~~~ -->
+    <link   rel="stylesheet" href="static/css/leaflet_cluster.css" />
+    <script src="static/js/leaflet_cluster.js" ></script>
+
+
+  </head>
+
+  <body>
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          <a class="agmipLogo pull-left menuDivider" href="">
+            <img src="static/images/AgMIP_logo_100x50.png" /> 
+            <div class="dataExchange">| Data Exchange</div>
+          </a>
+          </div>
+          <div class="collapse navbar-collapse pull-left menuPad">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Databases <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://test.agmip.org/ace">AgMIP Crop Database (Site-based)</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">AgMIP Sites <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                	<li><a href="http://www.agmip.org">AgMIP.org </a></li>
+                	<li><a href="http://research.agmip.org">AgMIP Research</a></li>
+                	<li><a href="http://tools.agmip.org">AgMIP Toolshed</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+          <div class="collapse navbar-collapse navbar-ex1-collapse pull-right">
+          	<ul class="nav navbar-nav navbar-right navbar-user ">
+            	<li class="menuDivider">
+             		 <a href="http://auth.agmip.org/?for=http://test.agmip.org/"class="greenBtn">
+                        <span class="greenBtnText" style="left:10px !important;">Login</span>
+                     </a>
+            	</li>
+            	<li class="menuDivider">
+              		<a href="#"class="greenBtn"><span class="greenBtnText">Sign Up</span></a>
+            	</li>
+          	</ul>
+        </div><!-- /.navbar-collapse -->
+        </div>
+	 </div>
+ 
+      <!-- Begin page content -->
+      <!-- This is where the General Information section goes-->
+      <div class="topUploadSection col-sm-12">
+        <div class="container" >
+        	<div class="disIn col-sm-12">
+        		<h1 class="homepageTitle col-sm-6" style="padding-left:0px;"><a class="collapseBtn" style="font-size:16px;" data-toggle="collapse" data-target="#searchSection">
+  						<i class="fa fa-caret-square-o-down fa-1x"></i></a> Search AgMIP Crop Database(Site-based)</h1>
+        		<div class="pull-right menuDivider">
+        		<div class="pull-right ShowDataTxt searchPos">
+  				<ul class="nav navbar-nav navbar-left padLeft">
+  					<li><div style="padding-top:15px;padding-right:10px; font-size:16px;"> Select Crop:</div></li>
+            		<li class="menuDivider">
+              			<div class="form-group" style="margin-top:8px; height:35px; width:200px;">
+                            <select id="crop_filter" class="searchBox form-control" >
+                                <option value="none">None</option>
+                                <option value="BAR">Barley</option>
+                                <option value="BRC">Brachiaria</option>
+                                <option value="WHB">Bread wheat</option>
+                                <option value="CBG">Cabbage</option>
+                                <option value="PPR">Capsicum pepper</option>
+                                <option value="CSV">Cassava</option>
+                                <option value="CHP">Chickpea</option>
+                                <option value="COT">Cotton</option>
+                                <option value="CWP">Cowpea</option>
+                                <option value="BND">Dry bean</option>
+                                <option value="WHD">Durum wheat</option>
+                                <option value="FBN">Faba bean</option>
+                                <option value="SGG">Grain sorghum</option>
+                                <option value="BNG">Green bean</option>
+                                <option value="MAZ">Maize</option>
+                                <option value="PNT">Peanut</option>
+                                <option value="PML">Pearl millet</option>
+                                <option value="POT">Potato</option>
+                                <option value="RIC">Rice</option>
+                                <option value="SBN">Soybean</option>
+                                <option value="SUC">Sugarcane</option>
+                                <option value="SUN">Sunflower</option>
+                                <option value="SWC">Sweet corn</option>
+                                <option value="TAN">Tanier</option>
+                                <option value="TAR">Taro</option>
+                                <option value="TOM">Tomato</option>
+                                <option value="VBN">Velvet bean</option> 
+    						</select>
+            		</li>
+            		<li class="menuDivider">
+              			<a id="apply_filter" class="searchBtn"><span class=" glyphicon glyphicon-search greenSearchText"></span></a>
+            		</li>
+            		<li class="menuDivider">
+              			<a href="" class="helpBtnBg"><div class="helpBtn" style="text-align:center;">?</div></a>
+            		</li>
+          		</ul>
+  					</div>
+        		</div>
+        	</div>
+        	<div id="searchSection" class="collapse in">
+        	<div class="col-sm-12">
+        		<!-- Map goes here -->
+        		<div id="map" style="height:320px"></div>
+        	</div>
+        	</div>
+        </div>
+      </div>    
+
+      <div class="col-sm-12 midUploadSection">
+      		<div class="container">
+        		<div class="col-sm-12">
+        			<h4 class="pull-left greyTxt"> 
+              	  		<a class="collapseBtn" data-toggle="collapse" data-target="#saved_data_container">
+  						<i class="fa fa-caret-square-o-down fa-1x"></i></a> 
+  						Selected Data:  
+                        <span id="saved_data_number" class="badge" style="display:none" ></span>
+  					</h4>
+  					<div class="pull-right ShowDataTxt rghtNeg5" >
+
+  				        <ul class="nav navbar-nav navbar-left padLeft">
+                            <li class="menuDivider">
+                      			<a id="obtain_data" class="greenBtn">
+                                    <span class="greenBtnText">Obtain Data</span>
+                                </a>
+                    		</li>
+                  		</ul>
+
+  					</div>
+        		</div>
+        	<div id="saved_data_container" class="collapse in">
+          		<div class="col-sm-12 table-responsive">
+                    <!-- ~~~~~~~~~~~~ this is the saved data table ~~~~~~~~~~~~~~~ -->
+                    <div id="saved_data">
+                        <table class="table table-striped table-hover" style="display:none">
+                            <tr> 
+                                <th class="headerTbl">Remove</th> 
+                                <th class="headerTbl">Crop</th> 
+                                <th class="headerTbl">Planting Date</th> 
+                                <th class="headerTbl">Soil Texture</th> 
+                                <th class="headerTbl">Institution</th> 
+                                <th class="headerTbl">Country</th> 
+                                <th class="headerTbl">EXNAME</th> 
+                                <th class="headerTbl">AgMIP Rating</th> 
+                                <th class="headerTbl">eID</th> 
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- ~~~~~~~~~~~~ this is the saved data table ~~~~~~~~~~~~~~~ -->
+
+
+                    <!-- ~~~~~~~~~~~~ clear saved data and download button ~~~~~~~~~~~~~~~ -->
+  					<div class="pull-right ShowDataTxt rghtNeg5" >
+  				        <ul class="nav navbar-nav navbar-left padLeft">
+                    		<li class="menuDivider">
+                      			<a id="raise_up_download_modal" class="greenBtn saved_data_button" 
+                                style="display:none" data-toggle="modal" data-target="#DownloadModal">
+                                    <span class="greenBtnText">Download Data</span>
+                                </a>
+                    		</li>
+                            <li class="menuDivider">
+                      			<a id="clear_saved_data" class="blueBtn saved_data_button" style="display:none" >
+                                    <span class="blueBtnText">Clear</span>
+                                </a>
+                    		</li>
+
+                  		</ul>
+  					</div>
+                    <!-- ~~~~~~~~~~~~ clear saved data and download button ~~~~~~~~~~~~~~~ -->
+
+          		</div>
+            </div>
+
+        	</div>
+      </div>
+      <div class="col-sm-12 bottomContentSection">
+      		<div class="container">
+        		<div class="col-sm-12">
+        			<h4 class="pull-left greyTxt"> 
+              	  		<a class="collapseBtn" data-toggle="collapse" data-target="#current_data_container">
+  						<i class="fa fa-caret-square-o-down fa-1x"></i></a> 
+  						Data Results:
+  					</h4>
+  					<div class="pull-right ShowResTxt">
+  						<h4 id="current_data_number" class="greyTxt" style="display:none">Showing 
+                            <b  class="resultsNum" ></b> 
+                            Results
+                        </h4>
+  					</div>
+        		</div>
+        	<div id="current_data_container" class="collapse in">
+          		<div class="col-sm-12 table-responsive">
+                    <!-- ~~~~~~~~~~~~ this is the current data table ~~~~~~~~~~~~~~~ -->
+                    <div id="current_data">
+                    </div>
+                    <!-- ~~~~~~~~~~~~ this is the current data table ~~~~~~~~~~~~~~~ -->
+          		</div>
+          		<ul class="nav navbar-nav navbar-left padLeft">
+            		<li class="menuDivider">
+              			<a id="select_all_current_data" class="greenBtn" style="display:none">
+                        <span class="greenBtnText">Select All</span></a>
+            		</li>
+            		<li class="menuDivider">
+              			<a id="clear_current_data" class="blueBtn" style="display:none">
+                            <span class="blueBtnText">Clear</span>
+                        </a>
+            		</li>
+          		</ul>
+            </div>
+
+        	</div>
+      </div>
+    </div>
+
+    <!-- ~~~~~~~~~~~~ footer ~~~~~~~~~~~~~~~ -->
+    <div id="footer">
+      <div class="container" style="padding-top:5px;">
+        <div class="col-sm-12">
+        <div class="col-sm-4 ">
+       		  <i class="fa fa-envelope-o fa-2x yellowText envIcon"></i>
+       		  <div class="disIn"> AgMIP IT is based at the University of Florida <br>
+       		  Email: <a href="mailto:it@agmip.org" class="yellowText">it@agmip.org</a>
+       		  </div>
+       		</div>
+        	         <div class="col-sm-4">
+       			<p style="color:#ffffff;">
+       				AgMIP's mission is to improve substantially the characterization of world food security as affected by climate variability and change, and to enhance adaptation capacity in both developing and developed countries.
+       			</p>
+       		</div>
+       		<div class="col-sm-4">
+       			<p style="color:#ffffff;">
+       				AgMIP gratefully acknowledges major support from the UK Department for International Development's UKaid in partnership with the US Department of Agriculture Agricultural Research Service.
+       			</p>
+       		</div>
+        </div>
+      </div>
+    </div>
+    <!-- ~~~~~~~~~~~~ footer ~~~~~~~~~~~~~~~ -->
+
+
+<!-- ~~~~~~~~~~~~ modal ~~~~~~~~~~~~~~~ -->
+<div class="modal fade" id="DownloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bord0">
+      <div class="modal-header modHead">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="DownloadModal">Download Data</h4>
+      </div>
+      <div class="modal-body">
+        <h4> Please select from the following options, how you want your data formatted.</h4>
+           <p>(Please select one)</p>
+            <div class="form-group" style="font-size:18px;">
+                <div class="checkbox">
+                  <label>
+                    <input class="db_type_filter" type="checkbox" value="ACE"/>
+                    ACEDB
+                  </label>
+                </div>
+               <div class="checkbox">
+                  <label>
+                    <input class="db_type_filter" type="checkbox" value="DOME"/>
+                    DOME
+                                      </label>
+                </div>
+               <div class="checkbox">
+                  <label>
+                    <input class="db_type_filter" type="checkbox" value="ACMO"/>
+                    ACMO
+                  </label>
+                </div>
+              </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger bord0" data-dismiss="modal">Cancel</button>
+        <button id="download_data" type="button" class="btn btn-success bord0" data-dismiss="modal" disabled="">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- ~~~~~~~~~~~~ modal ~~~~~~~~~~~~~~~ -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="static/js/bootstrap.js" ></script>
+    <script src="static/js/table_and_button_functions.js" ></script>
+    <script src="static/js/api_related_bindings.js" ></script>
+    <script src="static/js/non_api_related_bindings.js" ></script>
+    <script src="static/js/api.js" ></script>
+    <script src="static/js/map_functions.js" ></script>
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+>>>>>>> ee8319c23c9c6dd7da35979682747961e03acc01
