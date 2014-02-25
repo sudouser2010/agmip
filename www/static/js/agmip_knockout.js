@@ -15,20 +15,6 @@ ko.observableArray.fn.changeValueAtIndex = function(index,value)
 //-----------------------------for extra knockout array functionality
 
 
-//-----------------------------------------for accessing the element binded to an observable
-ko.bindingHandlers.accessDOMElement = {
-	init: function (element, valueAccessor, allBindingsAccessor, viewModel) { 
-	valueAccessor().extend({element: element });
-	}
-};
-
-ko.extenders.element = function (target, element) 
-{
-  target.DOMElement = element;
-}
-//-----------------------------------------for accessing the element binded to an observable
-
-
 function experiment(eid, crid, pdate, soil, institution, country, exname, rating, checked) 
 {
 
@@ -44,14 +30,6 @@ function experiment(eid, crid, pdate, soil, institution, country, exname, rating
 	self.rating			= rating;
 	self.checked		= ko.observable(checked);
 
-
-	//-------------------------show or hides the checkbox when the variable "checked" changes
-	self.checked.subscribe(function(newValue) {
-		//whenever this observable changes, the view will be updated with jquery
-		$(this.target.DOMElement).prop('checked', newValue);
-	});
-	//-------------------------show or hides the checkbox when the variable "checked" changes
-
 }
 
 
@@ -61,15 +39,7 @@ function all_experiments() {
 	self.current_data 			= ko.observableArray([]);
 	self.saved_data 			= ko.observableArray([]);		
 	self.selected_all_checked 	= ko.observable(false);	
-	
-	//----------------------show or hides the checkbox when the variable "selected_all_checked" changes		
-	self.selected_all_checked.subscribe(function(newValue) {
-	//whenever this observable changes, the view will be updated with jquery
-	$(this.target.DOMElement).prop('checked', newValue);
-	});
-	//----------------------show or hides the checkbox when the variable "selected_all_checked" changes		
-	
-	
+		
 	//--------------updates checkmark in checkbox on current data table
 	self.updateCheckMark = function(index, value) 
 	{	

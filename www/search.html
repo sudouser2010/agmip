@@ -177,7 +177,7 @@
 								<thead>
 									<tr> 
 										<th class="headerTbl ">
-											<input id="select_all_current_data" type="checkbox" data-bind="accessDOMElement:selected_all_checked, click: vm.selectAllCurrentDataClicked, attr:{'checked':selected_all_checked,}">
+											<input id="select_all_current_data" type="checkbox" data-bind="click: vm.selectAllCurrentDataClicked, checked:selected_all_checked">
 										</th>
 										<th class="headerTbl ">Crop</th> 
 										<th class="headerTbl ">Planting Date</th> 
@@ -194,7 +194,7 @@
 								<tbody data-bind="foreach: current_data">
 									<tr>
 										<td data-type='selector'>
-											<input class='current_data_selector' type='checkbox' data-bind="accessDOMElement:checked, click: vm.selectorClicked, attr: {'checked':checked, 'data-id': eid }">
+											<input class='current_data_selector' type='checkbox' data-bind="click: vm.selectorClicked, checked:checked , attr:{'data-id': eid }">
 										</td>
 										<td data-bind="text: crid"></td>
 										<td data-bind="text: pdate"></td>
