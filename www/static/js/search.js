@@ -178,7 +178,7 @@ function retrieve_data(crop_type, geohashes, eid_count) {
     } else {
         $("#spinner").modal("show");
         var packed = {};
-        packed.geohashes = geohashes;
+        packed.locations = geohashes;
         if(crop_type != "none") {
           packed.crop = crop.type;
         }
