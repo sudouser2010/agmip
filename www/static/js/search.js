@@ -151,6 +151,9 @@ function obtain_initial_map_population() {
 
 function obtain_specific_crop_map_population(crop_type) {
     $("#spinner").modal("show");
+    if(crop_type == "none") {
+      crop_type = "";
+    }
     options = {
         type: "GET",
         url: api_url + "/cache/location/" + crop_type,
