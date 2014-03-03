@@ -37,7 +37,6 @@ function build_current_data(data) {
 }
 
 $("#obtain_data").click(function() {
-    alert("Calling obtain_data()");
     var crop_id = $("#crop_filter").val();
     var geohashes = [];
     var map_bounds = map.getBounds();
@@ -175,11 +174,16 @@ function retrieve_data(crop_type, geohashes, eid_count) {
         $("#alertModal").modal("show");
     } else {
         $("#spinner").modal("show");
-        geohashes = JSON.stringify(geohashes);
+        var packed = {};
+        packed.geohashes = geohashes;
+        if(crop_type != "none") {
+          packed.crop = crop.type;
+        }
+        packed = JSON.stringify(packed);
         options = {
             type: "POST",
             url: api_url + "/query/geohash",
-            data: geohashes,
+            data: packed,
             dataType: "json",
             contentType: "application/json"
         };
