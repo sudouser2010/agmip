@@ -177,7 +177,7 @@
 								<thead>
 									<tr> 
 										<th class="headerTbl ">
-											<input id="select_all_current_data" type="checkbox" data-bind="click: vm.selectAllCurrentDataClicked, checked:selected_all_checked">
+											<input id="select_all_current_data" type="checkbox" >
 										</th>
 										<th class="headerTbl ">Crop</th> 
 										<th class="headerTbl ">Planting Date</th> 
@@ -189,21 +189,7 @@
 									</tr>
 								</thead>
 								
-
-
-								<tbody data-bind="foreach: current_data">
-									<tr>
-										<td data-type='selector'>
-											<input class='current_data_selector' type='checkbox' data-bind="click: vm.selectorClicked, checked:checked , attr:{'data-id': eid }">
-										</td>
-										<td data-bind="text: crid"></td>
-										<td data-bind="text: pdate"></td>
-										<td data-bind="text: soil"></td>								
-										<td data-bind="text: institution"></td>
-										<td data-bind="text: country"></td>
-										<td data-bind="text: exname"></td>									
-										<td data-bind="text: rating"></td>							
-									</tr>
+								<tbody id="current_data_body">
 								</tbody>
 							</table>
                         </div>
@@ -216,7 +202,7 @@
                         <span class="greenBtnText">Select All</span></a>
             		</li>
             		<li class="menuDivider">
-              			<a id="clear_current_data" class="blueBtn" style="display:none" data-bind="click: removeAllCurrentData">
+              			<a id="clear_current_data" class="blueBtn" style="display:none">
                             <span class="blueBtnText">Clear</span>
                         </a>
             		</li>
@@ -246,7 +232,7 @@
                         <table class="table table-striped table-hover noWrap" >
 							<thead>
                                 <th class="headerTbl ">
-									<span id="clear_saved_data" class='glyphicon glyphicon-remove' data-bind="click:clearSavedData"></span>
+									<span id="clear_saved_data" class='glyphicon glyphicon-remove'></span>
 								</th> 
                                 <th class="headerTbl ">Crop</th> 
                                 <th class="headerTbl ">Planting Date</th> 
@@ -256,20 +242,8 @@
                                 <th class="headerTbl ">EXNAME</th> 
                                 <th class="headerTbl ">AgMIP Rating</th> 
 							</thead>
-							<tbody data-bind="foreach: saved_data">
-								<tr>
-									<td data-type='selector'>
-										<span class='saved_data_selector glyphicon glyphicon-remove' data-bind="click:vm.removerClicked"></span>
-									</td>
-									<td data-bind="text: crid"></td>
-									<td data-bind="text: pdate"></td>
-									<td data-bind="text: soil"></td>								
-									<td data-bind="text: institution"></td>
-									<td data-bind="text: country"></td>
-									<td data-bind="text: exname"></td>									
-									<td data-bind="text: rating"></td>							
-								</tr>
-							</tbody>							
+								<tbody id="saved_data_body">
+								</tbody>							
                         </table>
                         </div>
                     </div>

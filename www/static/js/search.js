@@ -1,9 +1,184 @@
-function make_default_when_undefined(variable, default_variable) {
+current_data 	= [];
+saved_data		= [];
+
+
+function make_default_when_undefined(variable, default_variable) 
+{
     if (typeof variable === "undefined") {
         return default_variable;
     }
     return variable;
 }
+
+
+function showHideCurrentDataTable()
+{
+	if (current_data.length > 0) {
+		$("#current_data").show();
+		$("#clear_current_data").show();
+		$("#current_data_number").show();
+		$("#current_data_number").find("b").text(current_data.length);
+		var toggle_me_element = $("a[data-target='#current_data_container']");
+		if (toggle_me_element.hasClass("collapsed")) {
+			toggle_me_element.removeClass("collapsed");
+			$("#current_data_container").collapse("toggle");
+		}
+		$("html, body").animate({
+			scrollTop: $("#current_data_container").offset().top
+		}, 1500);
+	} else {
+		document.getElementById("select_all_current_data").checked = false;
+	}
+}
+
+
+function showHideSavedDataTable() 
+{
+	if (saved_data.length > 0) {
+		$("#saved_data").show();
+		$(".saved_data_button").show();
+		var toggle_me_element = $("a[data-target='#saved_data_container']");
+		if (toggle_me_element.hasClass("collapsed")) {
+			toggle_me_element.removeClass("collapsed");
+			$("#saved_data_container").collapse("toggle");
+		}
+		$("#saved_data_number").show();
+		$("#saved_data_number").text(saved_data.length);
+	} else {
+		$("#saved_data").hide();
+		$(".saved_data_button").hide();
+		$("#saved_data_number").hide();
+	}
+}
+
+function findIndex(eid, array) 
+{
+	for (var i = 0; i < array.length; i++) {
+		if (eid === array[i]["eid"]) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+
+function extractEids(array){
+	var eids = [];
+	for (i = 0; i < array.length; i++) {
+		eids.push(array[i]["eid"]);
+	}
+	return eids;
+}
+
+function build_current_data_table(data)
+{
+	content=[];
+	for(var i=0; i< current_data.length; i++)
+	{	
+		
+		if (findIndex(current_data[i]["eid"], saved_data) === -1) {
+			checked_attribute= "";
+		}else{
+			checked_attribute="checked=true";
+		}
+		
+		//cdr = current_data row
+		row= ["<tr class='cdr' data-eid='",current_data[i]["eid"],"' ><td><input ",checked_attribute," type='checkbox' class='check'></td><td>",current_data[i]["crid"],
+		"</td><td>", current_data[i]["pdate"] , "</td><td>", current_data[i]["soil"],    "</td><td>", current_data[i]["inst"], 
+		"</td><td>", current_data[i]["count"] , "</td><td>", current_data[i]["exname"] , "</td><td>", current_data[i]["rat"] , 
+		"</td>"].join('');
+
+		content[i+1] = row;
+
+	}
+	document.getElementById('current_data_body').innerHTML = content.join('');		
+}
+
+
+
+function select_all_current_data()
+{
+	checkboxes = document.getElementsByClassName('check');
+	content = [];
+	
+	for(var i=0; i < checkboxes.length; i++)
+	{
+		checkboxes[i].checked = true;
+		
+		if (findIndex(current_data[i]["eid"], saved_data) === -1) {
+
+			row= ["<tr id='r_",current_data[i]["eid"],
+			"'><td><span class='glyphicon glyphicon-remove sdr'></span></td><td>",current_data[i]["crid"],
+			"</td><td>", current_data[i]["pdate"] , "</td><td>", current_data[i]["soil"],    "</td><td>", current_data[i]["inst"], 
+			"</td><td>", current_data[i]["count"] , "</td><td>", current_data[i]["exname"] , "</td><td>", current_data[i]["rat"] , 
+			"</td>"].join('');
+
+			content[i+1] = row;			
+			saved_data.push(current_data[i]);
+		}
+
+	}
+	current_saved_data_body_text 	= document.getElementById("saved_data_body").innerHTML;
+	new_saved_data_body_text		= [content.join(''), current_saved_data_body_text].join('');
+	
+	document.getElementById('saved_data_body').innerHTML = new_saved_data_body_text;
+}
+
+function deselect_all_current_data()
+{
+	current_data_rows = document.getElementsByClassName('cdr');
+
+	for(var i=0; i < current_data_rows.length; i++)
+	{
+		//get eid from current data row
+		eid = current_data_rows[i].getAttribute("data-eid");
+		
+		//get checkbox
+		checkbox = current_data_rows[i].childNodes[0].childNodes[0];
+		
+		//mark checkbox as false
+		checkbox.checked = false;
+		
+		saved_data_index = findIndex(eid, saved_data);
+		
+		if (saved_data_index !== -1) {
+
+			//remove element from saved_data
+			saved_data.splice(saved_data_index, 1);
+			
+			//delete row from saved_data table
+			document.getElementById(['r_',eid].join('')).remove();
+		}
+		
+	}	
+}
+		
+		
+function user_clicked_checked_all()
+{
+	if(this.checked === true)
+	{
+		select_all_current_data();
+	}
+	else
+	{
+		deselect_all_current_data();
+	}
+	showHideSavedDataTable();
+}
+
+
+function clear_current_data()
+{
+	$("#clear_current_data").css("display", "none");
+	$("#current_data_number").hide();
+	$("#current_data").hide();
+	current_data=[];
+	showHideCurrentDataTable();
+}
+
+document.getElementById("clear_current_data").addEventListener("click", clear_current_data, false);
+document.getElementById("select_all_current_data").addEventListener("click", user_clicked_checked_all, false);
 
 function build_current_data(data) {
     var eid;
@@ -16,7 +191,7 @@ function build_current_data(data) {
     var rating;
     var checked;
     var default_unknown = "N/A";
-    vm.current_data([]);
+    current_data = [];
     for (var i = 0; i < data.length; i++) {
         eid = make_default_when_undefined(data[i]["eid"], default_unknown);
         crid = make_default_when_undefined(data[i]["crid"], default_unknown);
@@ -26,15 +201,23 @@ function build_current_data(data) {
         country = make_default_when_undefined(data[i]["country"], default_unknown);
         exname = make_default_when_undefined(data[i]["exname"], default_unknown);
         rating = make_default_when_undefined(data[i]["rating"], "unrated");
-        if (vm.findIndex(eid, vm.saved_data()) === -1) {
+        
+		if (findIndex(eid, saved_data) === -1) {
             checked = false;
         } else {
             checked = true;
         }
-        vm.current_data.push(new experiment(eid, crid, pdate, soil, institution, country, exname, rating, checked));
+		
+		checked = true;
+        current_data.push({'eid':eid, 'crid':crid, 'pdate':pdate, 'soil':soil, 'inst':institution, 'count':country, 
+		'exname':exname, 'rat':rating, 'checked':checked});
     }
-    vm.showHideCurrentDataTable();
+	showHideCurrentDataTable();
+	build_current_data_table(current_data);
+
 }
+
+
 
 $("#obtain_data").click(function() {
     var crop_id = $("#crop_filter").val();
@@ -80,7 +263,7 @@ $("#apply_filter").click(function() {
 });
 
 $("#download_data").click(function() {
-    if (vm.saved_data().length > 0) {
+    if ( saved_data().length > 0) {
         var database_types = [];
         var check_boxes = $(".db_type_filter");
         var eids_from_saved_data = [];
@@ -171,7 +354,7 @@ function obtain_specific_crop_map_population(crop_type) {
 }
 
 function retrieve_data(crop_type, geohashes, eid_count) {
-    max_eids = 1500;
+    max_eids = 15000;
     if (eid_count > max_eids) {
         $("#error_message").html("Data Size Is Too Large. More Than Data Points " + max_eids + " Selected. <br>Please Specify Data By Using Filter Or By Zooming In.");
         $("#alertModal").modal("show");
@@ -197,7 +380,8 @@ function retrieve_data(crop_type, geohashes, eid_count) {
             $("#alertModal").modal("show");
         }).always(function() {
             $("#spinner").modal("hide");
-            vm.selectedAllChecked(false);
+            document.getElementById("select_all_current_data").checked = false;
+			
         });
     }
 }
