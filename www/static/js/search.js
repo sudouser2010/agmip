@@ -48,6 +48,7 @@ function showHideSavedDataTable()
 		$("#saved_data").hide();
 		$(".saved_data_button").hide();
 		$("#saved_data_number").hide();
+		document.getElementById("select_all_current_data").checked = false;
 	}
 }
 
@@ -83,7 +84,7 @@ function build_current_data_table(data)
 		}
 		
 		//cdr = current_data row
-		row= ["<tr class='cdr' data-eid='",current_data[i]["eid"],"' ><td><input ",checked_attribute," type='checkbox' class='check'></td><td>",current_data[i]["crid"],
+		row= ["<tr class='cdr' data-eid='",current_data[i]["eid"],"' ><td><input ",checked_attribute," type='checkbox' class='check' onclick='sclicked(event)'></td><td>",current_data[i]["crid"],
 		"</td><td>", current_data[i]["pdate"] , "</td><td>", current_data[i]["soil"],    "</td><td>", current_data[i]["inst"], 
 		"</td><td>", current_data[i]["count"] , "</td><td>", current_data[i]["exname"] , "</td><td>", current_data[i]["rat"] , 
 		"</td>"].join('');
@@ -123,6 +124,7 @@ function select_all_current_data()
 	
 	document.getElementById('saved_data_body').innerHTML = new_saved_data_body_text;
 }
+
 
 function deselect_all_current_data()
 {
@@ -168,6 +170,67 @@ function user_clicked_checked_all()
 }
 
 
+
+function select(eid)
+{
+
+	saved_data_index = findIndex(eid, saved_data);
+	
+	if (saved_data_index === -1) {
+
+		//get data that corresponds
+		current_data_index = findIndex(eid, current_data);	
+		data = current_data[current_data_index];
+		
+		//add element to saved_data
+		saved_data.push(data);
+		
+		//add row to saved_data table
+		row = ["<tr id='r_",data["eid"],"'><td><span class='glyphicon glyphicon-remove sdr'></span></td><td>",data["crid"],
+		"</td><td>", data["pdate"] , "</td><td>", data["soil"],    "</td><td>", data["inst"], 
+		"</td><td>", data["count"] , "</td><td>", data["exname"] , "</td><td>", data["rat"] , 
+		"</td>"].join('');
+		
+		current_saved_data_body_text 	= document.getElementById("saved_data_body").innerHTML;
+		new_saved_data_body_text		= [row, current_saved_data_body_text].join('');
+		
+		document.getElementById('saved_data_body').innerHTML = new_saved_data_body_text;		
+	}
+	
+}
+
+function deselect(eid)
+{
+	saved_data_index = findIndex(eid, saved_data);
+	
+	if (saved_data_index !== -1) {
+
+		//remove element from saved_data
+		saved_data.splice(saved_data_index, 1);
+		
+		//delete row from saved_data table
+		document.getElementById(['r_',eid].join('')).remove();
+	}
+}
+
+
+//sclicked is for selector clicked
+function sclicked(event)
+{
+
+	//get eid from current data row
+	eid = event.target.parentNode.parentNode.getAttribute("data-eid");
+	
+	if(event.target.checked === true)
+	{
+		select(eid);
+	}else{
+		deselect(eid);
+	}
+	showHideSavedDataTable();
+}
+
+
 function clear_current_data()
 {
 	$("#clear_current_data").css("display", "none");
@@ -177,8 +240,17 @@ function clear_current_data()
 	showHideCurrentDataTable();
 }
 
+function clear_saved_data()
+{
+	saved_data = [];
+	deselect_all_current_data();
+	showHideSavedDataTable();
+}
+
+
 document.getElementById("clear_current_data").addEventListener("click", clear_current_data, false);
 document.getElementById("select_all_current_data").addEventListener("click", user_clicked_checked_all, false);
+document.getElementById("clear_saved_data").addEventListener("click", clear_saved_data, false);
 
 function build_current_data(data) {
     var eid;
@@ -354,7 +426,7 @@ function obtain_specific_crop_map_population(crop_type) {
 }
 
 function retrieve_data(crop_type, geohashes, eid_count) {
-    max_eids = 15000;
+    max_eids = 1500;
     if (eid_count > max_eids) {
         $("#error_message").html("Data Size Is Too Large. More Than Data Points " + max_eids + " Selected. <br>Please Specify Data By Using Filter Or By Zooming In.");
         $("#alertModal").modal("show");
