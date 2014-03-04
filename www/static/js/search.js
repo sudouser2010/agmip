@@ -84,7 +84,7 @@ function build_current_data_table(data)
 		}
 		
 		//cdr = current_data row
-		row= ["<tr class='cdr' data-eid='",current_data[i]["eid"],"' ><td><input ",checked_attribute," type='checkbox' class='check' onclick='sclicked(event)'></td><td>",current_data[i]["crid"],
+		row= ["<tr class='cdr' id='s_",current_data[i]["eid"],"' ><td><input ",checked_attribute," type='checkbox' class='check' onclick='sclicked(event)'></td><td>",current_data[i]["crid"],
 		"</td><td>", current_data[i]["pdate"] , "</td><td>", current_data[i]["soil"],    "</td><td>", current_data[i]["inst"], 
 		"</td><td>", current_data[i]["count"] , "</td><td>", current_data[i]["exname"] , "</td><td>", current_data[i]["rat"] , 
 		"</td>"].join('');
@@ -109,7 +109,7 @@ function select_all_current_data()
 		if (findIndex(current_data[i]["eid"], saved_data) === -1) {
 
 			row= ["<tr id='r_",current_data[i]["eid"],
-			"'><td><span class='glyphicon glyphicon-remove sdr'></span></td><td>",current_data[i]["crid"],
+			"'><td><span class='glyphicon glyphicon-remove' onclick='rclicked(event)' ></span></td><td>",current_data[i]["crid"],
 			"</td><td>", current_data[i]["pdate"] , "</td><td>", current_data[i]["soil"],    "</td><td>", current_data[i]["inst"], 
 			"</td><td>", current_data[i]["count"] , "</td><td>", current_data[i]["exname"] , "</td><td>", current_data[i]["rat"] , 
 			"</td>"].join('');
@@ -133,7 +133,7 @@ function deselect_all_current_data()
 	for(var i=0; i < current_data_rows.length; i++)
 	{
 		//get eid from current data row
-		eid = current_data_rows[i].getAttribute("data-eid");
+		eid = current_data_rows[i].id.slice(2);
 		
 		//get checkbox
 		checkbox = current_data_rows[i].childNodes[0].childNodes[0];
@@ -186,7 +186,8 @@ function select(eid)
 		saved_data.push(data);
 		
 		//add row to saved_data table
-		row = ["<tr id='r_",data["eid"],"'><td><span class='glyphicon glyphicon-remove sdr'></span></td><td>",data["crid"],
+		row = ["<tr id='r_",data["eid"]
+		,"'><td><span class='glyphicon glyphicon-remove' onclick='rclicked(event)' ></span></td><td>",data["crid"],
 		"</td><td>", data["pdate"] , "</td><td>", data["soil"],    "</td><td>", data["inst"], 
 		"</td><td>", data["count"] , "</td><td>", data["exname"] , "</td><td>", data["rat"] , 
 		"</td>"].join('');
@@ -217,9 +218,11 @@ function deselect(eid)
 //sclicked is for selector clicked
 function sclicked(event)
 {
+	//uncheck select all
+	document.getElementById('select_all_current_data').checked = false;
 
 	//get eid from current data row
-	eid = event.target.parentNode.parentNode.getAttribute("data-eid");
+	eid = event.target.parentNode.parentNode.id.slice(2);
 	
 	if(event.target.checked === true)
 	{
@@ -230,6 +233,28 @@ function sclicked(event)
 	showHideSavedDataTable();
 }
 
+//rclicked is for remover clicked
+function rclicked(event)
+{
+	//get element id
+	element_id = event.target.parentNode.parentNode.id;
+	
+	//get eid from element id by removing first two characters
+	eid = element_id.slice(2);
+	
+	//remove element from saved data
+	saved_data_index = findIndex(eid, saved_data);
+	saved_data.splice(saved_data_index, 1);
+	
+	//remove this element
+	document.getElementById(element_id).remove();
+	
+	//uncheck check mark for current data
+	document.getElementById(["s_",eid].join('')).childNodes[0].childNodes[0].checked = false;
+	
+	showHideSavedDataTable();
+
+}
 
 function clear_current_data()
 {
@@ -335,7 +360,7 @@ $("#apply_filter").click(function() {
 });
 
 $("#download_data").click(function() {
-    if ( saved_data().length > 0) {
+    if ( saved_data.length > 0) {
         var database_types = [];
         var check_boxes = $(".db_type_filter");
         var eids_from_saved_data = [];
@@ -344,7 +369,7 @@ $("#download_data").click(function() {
                 database_types.push($(check_boxes[index]).val());
             }
         });
-        eids_from_saved_data = vm.extractEids(vm.saved_data());
+        eids_from_saved_data = extractEids(saved_data);
         retrieve_database(database_types, eids_from_saved_data);
     }
 });
