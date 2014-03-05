@@ -63,6 +63,28 @@ function showHideSavedDataTable()
 	}
 }
 
+function generate_current_data_row(experiment, checked_attribute)
+{
+
+	row= ["<tr class='cdr' id='s_",experiment["eid"],"' ><td><input ",checked_attribute," type='checkbox' class='check' onclick='sclicked(event)'></td><td>",experiment["crid"],
+	"</td><td>", experiment["pdate"] , "</td><td>", experiment["soil"],    "</td><td>", experiment["inst"], 
+	"</td><td>", experiment["count"] , "</td><td>", experiment["exname"] , "</td><td>", experiment["rat"] , 
+	"</td>"].join('');
+	
+	return row;
+}
+
+function generate_saved_data_row(experiment)
+{
+	row= ["<tr id='r_",experiment["eid"],
+	"'><td><span class='glyphicon glyphicon-remove' onclick='rclicked(event)' ></span></td><td>",experiment["crid"],
+	"</td><td>", experiment["pdate"] , "</td><td>", experiment["soil"],    "</td><td>", experiment["inst"], 
+	"</td><td>", experiment["count"] , "</td><td>", experiment["exname"] , "</td><td>", experiment["rat"] , 
+	"</td>"].join('');
+	
+	return row;
+}
+
 function build_current_data_table(data)
 {
 	content=[];
@@ -76,11 +98,8 @@ function build_current_data_table(data)
 		}
 		
 		//cdr = current_data row
-		row= ["<tr class='cdr' id='s_",current_data[i]["eid"],"' ><td><input ",checked_attribute," type='checkbox' class='check' onclick='sclicked(event)'></td><td>",current_data[i]["crid"],
-		"</td><td>", current_data[i]["pdate"] , "</td><td>", current_data[i]["soil"],    "</td><td>", current_data[i]["inst"], 
-		"</td><td>", current_data[i]["count"] , "</td><td>", current_data[i]["exname"] , "</td><td>", current_data[i]["rat"] , 
-		"</td>"].join('');
-
+		row = generate_current_data_row(current_data[i], checked_attribute);
+		
 		content[i+1] = row;
 
 	}
@@ -100,11 +119,7 @@ function select_all_current_data()
 		
 		if (findIndex(current_data[i]["eid"], saved_data) === -1) {
 
-			row= ["<tr id='r_",current_data[i]["eid"],
-			"'><td><span class='glyphicon glyphicon-remove' onclick='rclicked(event)' ></span></td><td>",current_data[i]["crid"],
-			"</td><td>", current_data[i]["pdate"] , "</td><td>", current_data[i]["soil"],    "</td><td>", current_data[i]["inst"], 
-			"</td><td>", current_data[i]["count"] , "</td><td>", current_data[i]["exname"] , "</td><td>", current_data[i]["rat"] , 
-			"</td>"].join('');
+			row = generate_saved_data_row(current_data[i]);
 
 			content[i+1] = row;			
 			saved_data.push(current_data[i]);
@@ -179,11 +194,7 @@ function select(eid)
 		saved_data.push(data);
 		
 		//add row to saved_data table
-		row = ["<tr id='r_",data["eid"]
-		,"'><td><span class='glyphicon glyphicon-remove' onclick='rclicked(event)' ></span></td><td>",data["crid"],
-		"</td><td>", data["pdate"] , "</td><td>", data["soil"],    "</td><td>", data["inst"], 
-		"</td><td>", data["count"] , "</td><td>", data["exname"] , "</td><td>", data["rat"] , 
-		"</td>"].join('');
+		row = generate_saved_data_row(data);
 		
 		current_saved_data_body_text 	= document.getElementById("saved_data_body").innerHTML;
 		new_saved_data_body_text		= [row, current_saved_data_body_text].join('');
