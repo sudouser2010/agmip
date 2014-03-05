@@ -1,3 +1,4 @@
+//--------------------------------------------------------------table functionality
 current_data 	= [];
 saved_data		= [];
 
@@ -8,6 +9,16 @@ function make_default_when_undefined(variable, default_variable)
         return default_variable;
     }
     return variable;
+}
+
+function findIndex(eid, array) 
+{
+	for (var i = 0; i < array.length; i++) {
+		if (eid === array[i]["eid"]) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 
@@ -50,25 +61,6 @@ function showHideSavedDataTable()
 		$("#saved_data_number").hide();
 		document.getElementById("select_all_current_data").checked = false;
 	}
-}
-
-function findIndex(eid, array) 
-{
-	for (var i = 0; i < array.length; i++) {
-		if (eid === array[i]["eid"]) {
-			return i;
-		}
-	}
-	return -1;
-}
-
-
-function extractEids(array){
-	var eids = [];
-	for (i = 0; i < array.length; i++) {
-		eids.push(array[i]["eid"]);
-	}
-	return eids;
 }
 
 function build_current_data_table(data)
@@ -173,7 +165,8 @@ function user_clicked_checked_all()
 
 function select(eid)
 {
-
+	//this is used by the sclicked function
+	
 	saved_data_index = findIndex(eid, saved_data);
 	
 	if (saved_data_index === -1) {
@@ -202,6 +195,8 @@ function select(eid)
 
 function deselect(eid)
 {
+	//this is used by the sclicked function
+	
 	saved_data_index = findIndex(eid, saved_data);
 	
 	if (saved_data_index !== -1) {
@@ -272,11 +267,6 @@ function clear_saved_data()
 	showHideSavedDataTable();
 }
 
-
-document.getElementById("clear_current_data").addEventListener("click", clear_current_data, false);
-document.getElementById("select_all_current_data").addEventListener("click", user_clicked_checked_all, false);
-document.getElementById("clear_saved_data").addEventListener("click", clear_saved_data, false);
-
 function build_current_data(data) {
     var eid;
     var crid;
@@ -314,6 +304,10 @@ function build_current_data(data) {
 
 }
 
+document.getElementById("clear_current_data").addEventListener("click", clear_current_data, false);
+document.getElementById("select_all_current_data").addEventListener("click", user_clicked_checked_all, false);
+document.getElementById("clear_saved_data").addEventListener("click", clear_saved_data, false);
+//--------------------------------------------------------------table functionality
 
 
 $("#obtain_data").click(function() {
@@ -358,6 +352,15 @@ $("#apply_filter").click(function() {
     var crop_id = $("#crop_filter").val();
     obtain_specific_crop_map_population(crop_id);
 });
+
+function extractEids(array){
+//used for downloading data. This function returns an array of eids
+	var eids = [];
+	for (i = 0; i < array.length; i++) {
+		eids.push(array[i]["eid"]);
+	}
+	return eids;
+}
 
 $("#download_data").click(function() {
     if ( saved_data.length > 0) {
@@ -589,168 +592,4 @@ function place_markers_and_clusters_on_map(location_data) {
     map.addLayer(markerLayer);
 }
 
-ko.observableArray.fn.removeValueAtIndex = function(index) {
-    this.valueWillMutate();
-    this().splice(index, 1);
-    this.valueHasMutated();
-};
-
-ko.observableArray.fn.changeValueAtIndex = function(index, value) {
-    this.valueWillMutate();
-    this()[index] = value;
-    this.valueHasMutated();
-};
-
-function experiment(eid, crid, pdate, soil, institution, country, exname, rating, checked) {
-    var self = this;
-    self.eid = eid;
-    self.crid = crid;
-    self.pdate = pdate;
-    self.soil = soil;
-    self.institution = institution;
-    self.country = country;
-    self.exname = exname;
-    self.rating = rating;
-    self.checked = ko.observable(checked);
-}
-
-function all_experiments() {
-    var self = this;
-    self.current_data = ko.observableArray([]);
-    self.saved_data = ko.observableArray([]);
-    self.selected_all_checked = ko.observable(false);
-    self.updateCheckMark = function(index, value) {
-        self.current_data()[index].checked(value);
-    };
-    self.toggleCheckMark = function(index) {
-        self.current_data()[index].checked(!self.current_data()[index].checked());
-    };
-    self.selectAllCheckMarks = function() {
-        for (var i = 0; i < self.current_data().length; i++) {
-            current_data_eid = self.current_data()[i]["eid"];
-            index = self.findIndex(current_data_eid, self.saved_data());
-            self.updateCheckMark(i, true);
-            if (index === -1) {
-                self.saved_data.push(self.current_data()[i]);
-            }
-        }
-    };
-    self.deselectAndRemoveSubsetCheckMarks = function() {
-        for (i = 0; i < self.current_data().length; i++) {
-            self.updateCheckMark(i, false);
-            current_data_eid = self.current_data()[i]["eid"];
-            saved_data_index = self.findIndex(current_data_eid, self.saved_data());
-            if (saved_data_index !== -1) {
-                self.saved_data.removeValueAtIndex(saved_data_index);
-            }
-        }
-    };
-    self.deselectAllCheckMarks = function() {
-        for (i = 0; i < self.current_data().length; i++) {
-            self.updateCheckMark(i, false);
-        }
-    };
-    self.removeAllCurrentData = function() {
-        $("#clear_current_data").css("display", "none");
-        $("#current_data_number").hide();
-        $("#current_data").hide();
-        self.current_data([]);
-        self.showHideCurrentDataTable();
-    };
-    self.clearSavedData = function() {
-        self.saved_data([]);
-        self.deselectAllCheckMarks();
-        self.showHideSavedDataTable();
-    };
-    self.selectAllCurrentDataClicked = function(data, event) {
-        if (self.selected_all_checked()) {
-            self.selected_all_checked(false);
-            self.deselectAndRemoveSubsetCheckMarks();
-            self.showHideSavedDataTable();
-        } else {
-            self.selected_all_checked(true);
-            self.selectAllCheckMarks();
-            self.showHideSavedDataTable();
-            $("html, body").animate({
-                scrollTop: $("#saved_data_container").offset().top
-            }, 1200);
-        }
-        return true;
-    };
-    self.selectorClicked = function(experiment, event) {
-        saved_data_index = self.findIndex(experiment["eid"], self.saved_data());
-        current_data_index = self.findIndex(experiment["eid"], self.current_data());
-        self.toggleCheckMark(current_data_index);
-        if (saved_data_index === -1) {
-            datum = self.current_data()[current_data_index];
-            self.saved_data.push(datum);
-        } else {
-            self.saved_data.removeValueAtIndex(saved_data_index);
-        }
-        self.showHideSavedDataTable();
-        return true;
-    };
-    self.removerClicked = function(experiment) {
-        saved_data_index = self.findIndex(experiment["eid"], self.saved_data());
-        self.saved_data.removeValueAtIndex(saved_data_index);
-        current_data_index = self.findIndex(experiment["eid"], self.current_data());
-        self.toggleCheckMark(current_data_index);
-        self.showHideSavedDataTable();
-        return true;
-    };
-    self.showHideCurrentDataTable = function() {
-        if (self.current_data().length > 0) {
-            $("#current_data").show();
-            $("#clear_current_data").show();
-            $("#current_data_number").show();
-            $("#current_data_number").find("b").text(self.current_data().length);
-            var toggle_me_element = $("a[data-target='#current_data_container']");
-            if (toggle_me_element.hasClass("collapsed")) {
-                toggle_me_element.removeClass("collapsed");
-                $("#current_data_container").collapse("toggle");
-            }
-            $("html, body").animate({
-                scrollTop: $("#current_data_container").offset().top
-            }, 1200);
-        } else {
-            self.selected_all_checked(false);
-        }
-    };
-    self.showHideSavedDataTable = function() {
-        if (self.saved_data().length > 0) {
-            $("#saved_data").show();
-            $(".saved_data_button").show();
-            var toggle_me_element = $("a[data-target='#saved_data_container']");
-            if (toggle_me_element.hasClass("collapsed")) {
-                toggle_me_element.removeClass("collapsed");
-                $("#saved_data_container").collapse("toggle");
-            }
-            $("#saved_data_number").show();
-            $("#saved_data_number").text(self.saved_data().length);
-        } else {
-            $("#saved_data").hide();
-            $(".saved_data_button").hide();
-            $("#saved_data_number").hide();
-            self.selected_all_checked(false);
-        }
-    };
-    self.findIndex = function(eid, array) {
-        for (var i = 0; i < array.length; i++) {
-            if (eid === array[i]["eid"]) {
-                return i;
-            }
-        }
-        return -1;
-    };
-    self.extractEids = function(array) {
-        var eids = [];
-        for (i = 0; i < array.length; i++) {
-            eids.push(array[i]["eid"]);
-        }
-        return eids;
-    };
-}
-
-var vm = new all_experiments();
-
-ko.applyBindings(vm);
+//--------------------------------------------------------------table functionality
